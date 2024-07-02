@@ -1,0 +1,17 @@
+version: "3"
+
+networks:
+  api:
+
+services:
+  rewild_it_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rewild_it_api
+    networks:
+      - api
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
