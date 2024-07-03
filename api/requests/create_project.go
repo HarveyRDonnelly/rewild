@@ -25,7 +25,7 @@ type CreateProjectResponse struct {
 	FollowerCount     int    `json:"follower_count"`
 }
 
-func CreateProjectRoute(r *gin.Engine) *gin.Engine {
+func createProjectRoute(r *gin.Engine) *gin.Engine {
 
 	r.POST("/project/", func(c *gin.Context) {
 
@@ -54,12 +54,22 @@ func CreateProjectRoute(r *gin.Engine) *gin.Engine {
 			},
 		)
 
+		// Create initial timeline post
+		timelinePostDBResponse := db.CreateTimelinePost(
+			DB,
+			db.CreateTimelinePostDBRequest{
+				NextID: uuid.Nil,
+				PrevID: uuid.Nil,
+				Title:  "Let's start rewilding!",
+				Body:   "",
+			})
+
 		// Create timeline
 		timelineDBResponse := db.CreateTimeline(
 			DB,
 			db.CreateTimelineDBRequest{
-				HeadID: uuid.Nil,
-				TailID: uuid.Nil,
+				HeadID: timelinePostDBResponse.TimelinePostID,
+				TailID: timelinePostDBResponse.TimelinePostID,
 			},
 		)
 
