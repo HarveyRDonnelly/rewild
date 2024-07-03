@@ -1,6 +1,10 @@
 package db
 
-type GetUserResponse struct {
+type GetUserDBRequest struct {
+	UserID uuid_t `json:"user_id"`
+}
+
+type GetUserDBResponse struct {
 	UserID    uuid_t   `json:"user_id"`
 	FirstName string   `json:"first_name"`
 	LastName  string   `json:"last_name"`
@@ -9,18 +13,14 @@ type GetUserResponse struct {
 	Follows   []uuid_t `json:"follows"`
 }
 
-func GetUser(conn Connection, userID uuid_t) GetUserResponse {
+func GetUser(conn Connection, dbRequest GetUserDBRequest) GetUserDBResponse {
 
-	var firstName string
-	var lastName string
-	var username string
-	var email string
-	var follows []uuid_t
+	var dbResponse GetUserDBResponse
+	dbResponse.UserID = dbRequest.UserID
 
-	// Get user information
 	rows, err := conn.Gateway.Query(
-		`SELECT first_name, last_name, username, email FROM rewild.users WHERE user_id=$1;`,
-		userID.String())
+		`SELECT first_name, last_name, email, username FROM rewild.users WHERE user_id=$1;`,
+		dbRequest.UserID.String())
 
 	if err != nil {
 		panic(err)
@@ -28,7 +28,13 @@ func GetUser(conn Connection, userID uuid_t) GetUserResponse {
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&firstName, &lastName, &username, &email)
+
+		err := rows.Scan(
+			&dbResponse.FirstName,
+			&dbResponse.LastName,
+			&dbResponse.Email,
+			&dbResponse.Username)
+
 		if err != nil {
 			panic(err)
 		}
@@ -39,25 +45,16 @@ func GetUser(conn Connection, userID uuid_t) GetUserResponse {
 		panic(err)
 	}
 
-	// Get project follows
-	follows = getUsersProjectIDs(conn, userID)
+	dbResponse.Follows = getUsersProjectIDs(conn, dbRequest.UserID)
 
-	user := GetUserResponse{
-		UserID:    userID,
-		FirstName: firstName,
-		LastName:  lastName,
-		Username:  username,
-		Email:     email,
-		Follows:   follows,
-	}
-
-	return user
+	return dbResponse
 }
 
 func getUsersProjectIDs(conn Connection, userID uuid_t) []uuid_t {
 
-	var projectIDs []uuid_t
 	var currProjectID uuid_t
+
+	projectIDs := []uuid_t{}
 
 	rows, err := conn.Gateway.Query(
 		`SELECT project_id FROM rewild.follows WHERE user_id=$1;`,

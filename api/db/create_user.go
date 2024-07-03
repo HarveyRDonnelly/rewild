@@ -1,6 +1,6 @@
 package db
 
-type CreateUserResponse struct {
+type CreateUserDBResponse struct {
 	UserID    uuid_t   `json:"user_id"`
 	FirstName string   `json:"first_name"`
 	LastName  string   `json:"last_name"`
@@ -9,22 +9,26 @@ type CreateUserResponse struct {
 	Follows   []uuid_t `json:"follows"`
 }
 
+type CreateUserDBRequest struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+}
+
 func CreateUser(
 	conn Connection,
-	firstName string,
-	lastName string,
-	username string,
-	email string) CreateUserResponse {
+	dbRequest CreateUserDBRequest) CreateUserDBResponse {
 
 	var userID uuid_t
 
 	rows, err := conn.Gateway.Query(
 		`INSERT INTO rewild.users (first_name, last_name, username, email)
 					VALUES ($1, $2, $3, $4) RETURNING user_id;`,
-		firstName,
-		lastName,
-		username,
-		email,
+		dbRequest.FirstName,
+		dbRequest.LastName,
+		dbRequest.Username,
+		dbRequest.Email,
 	)
 
 	if err != nil {
@@ -44,8 +48,15 @@ func CreateUser(
 		panic(err)
 	}
 
-	user := CreateUserResponse(GetUser(conn, userID))
+	dbResponse := CreateUserDBResponse(
+		GetUser(
+			conn,
+			GetUserDBRequest{
+				UserID: userID,
+			},
+		),
+	)
 
-	return user
+	return dbResponse
 
 }

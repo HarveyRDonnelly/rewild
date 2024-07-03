@@ -1,6 +1,10 @@
 package db
 
-type GetProjectResponse struct {
+type GetProjectDBRequest struct {
+	ProjectID uuid_t `json:"project_id"`
+}
+
+type GetProjectDBResponse struct {
 	ProjectID         uuid_t `json:"project_id"`
 	Name              string `json:"name"`
 	Description       string `json:"description"`
@@ -10,20 +14,15 @@ type GetProjectResponse struct {
 	FollowerCount     int    `json:"follower_count"`
 }
 
-func GetProject(conn Connection, projectID uuid_t) GetProjectResponse {
+func GetProject(conn Connection, dbRequest GetProjectDBRequest) GetProjectDBResponse {
 
-	var name string
-	var description string
-	var pindropID uuid_t
-	var timelineID uuid_t
-	var discussionBoardID uuid_t
-	var followerCount int
+	var dbResponse GetProjectDBResponse
+	dbResponse.ProjectID = dbRequest.ProjectID
 
-	// Get user information
 	rows, err := conn.Gateway.Query(
 		`SELECT name, description, pindrop_id, timeline_id, discussion_board_id, follower_count 
 				FROM rewild.projects WHERE project_id=$1;`,
-		projectID.String())
+		dbRequest.ProjectID.String())
 
 	if err != nil {
 		panic(err)
@@ -31,7 +30,14 @@ func GetProject(conn Connection, projectID uuid_t) GetProjectResponse {
 	defer rows.Close()
 
 	for rows.Next() {
-		err := rows.Scan(&name, &description, &pindropID, &timelineID, &discussionBoardID, &followerCount)
+		err := rows.Scan(
+			&dbResponse.Name,
+			&dbResponse.Description,
+			&dbResponse.PindropID,
+			&dbResponse.TimelineID,
+			&dbResponse.DiscussionBoardID,
+			&dbResponse.FollowerCount)
+
 		if err != nil {
 			panic(err)
 		}
@@ -42,15 +48,5 @@ func GetProject(conn Connection, projectID uuid_t) GetProjectResponse {
 		panic(err)
 	}
 
-	project := GetProjectResponse{
-		ProjectID:         projectID,
-		Name:              name,
-		Description:       description,
-		PindropID:         pindropID,
-		TimelineID:        timelineID,
-		DiscussionBoardID: discussionBoardID,
-		FollowerCount:     followerCount,
-	}
-
-	return project
+	return dbResponse
 }
