@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS rewild.pindrops(
 
 CREATE TABLE IF NOT EXISTS rewild.timeline_posts(
     timeline_post_id    UUID DEFAULT gen_random_uuid(),
-    next_id             UUID,
-    prev_id             UUID,
+    next_id             UUID NULL,
+    prev_id             UUID NULL,
     title               VARCHAR(255) NOT NULL,
     body                TEXT,
     created_ts      TIMESTAMP DEFAULT current_timestamp,
@@ -38,8 +38,8 @@ CREATE TABLE IF NOT EXISTS rewild.timeline_posts(
 
 CREATE TABLE IF NOT EXISTS rewild.timelines(
     timeline_id     UUID DEFAULT gen_random_uuid(),
-    head_id         UUID,
-    tail_id         UUID,
+    head_id         UUID NULL,
+    tail_id         UUID NULL,
     created_ts      TIMESTAMP DEFAULT current_timestamp,
     PRIMARY KEY(timeline_id),
     CONSTRAINT fk_head
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS rewild.images(
 
 CREATE TABLE IF NOT EXISTS rewild.discussion_board_messages(
     discussion_board_message_id     UUID DEFAULT gen_random_uuid(),
-    parent_id                       UUID,
+    parent_id                       UUID NULL,
     body                            TEXT,
     created_ts      TIMESTAMP DEFAULT current_timestamp,
     PRIMARY KEY(discussion_board_message_id),

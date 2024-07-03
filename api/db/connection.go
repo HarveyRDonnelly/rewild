@@ -40,3 +40,14 @@ func Connect(conn Connection) Connection {
 
 	return conn
 }
+
+func nullIDString(id uuid_t) sql.NullString {
+	idString := sql.NullString{
+		String: id.String(),
+		Valid:  true,
+	}
+	if id == uuid.Nil {
+		idString.Valid = false
+	}
+	return idString
+}

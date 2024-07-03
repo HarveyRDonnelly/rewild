@@ -17,8 +17,8 @@ func CreateFollow(
 	rows, err := conn.Gateway.Query(
 		`INSERT INTO rewild.follows (user_id, project_id)
 				VALUES ($1, $2);`,
-		dbRequest.UserID,
-		dbRequest.ProjectID,
+		nullIDString(dbRequest.UserID),
+		nullIDString(dbRequest.ProjectID),
 	)
 
 	if err != nil {

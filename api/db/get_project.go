@@ -22,7 +22,7 @@ func GetProject(conn Connection, dbRequest GetProjectDBRequest) GetProjectDBResp
 	rows, err := conn.Gateway.Query(
 		`SELECT name, description, pindrop_id, timeline_id, discussion_board_id, follower_count 
 				FROM rewild.projects WHERE project_id=$1;`,
-		dbRequest.ProjectID.String())
+		nullIDString(dbRequest.ProjectID))
 
 	if err != nil {
 		panic(err)

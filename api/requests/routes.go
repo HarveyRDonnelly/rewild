@@ -20,8 +20,8 @@ func Create() *gin.Engine {
 
 	r = getUserRoute(r)
 	r = createUserRoute(r)
-
 	r = getProjectRoute(r)
+	r = CreateProjectRoute(r)
 
 	return r
 }

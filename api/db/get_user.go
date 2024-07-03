@@ -58,7 +58,7 @@ func getUsersProjectIDs(conn Connection, userID uuid_t) []uuid_t {
 
 	rows, err := conn.Gateway.Query(
 		`SELECT project_id FROM rewild.follows WHERE user_id=$1;`,
-		userID.String())
+		nullIDString(userID))
 
 	if err != nil {
 		panic(err)

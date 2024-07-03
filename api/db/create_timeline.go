@@ -11,7 +11,7 @@ type CreateTimelineDBResponse struct {
 	TailID     uuid_t `json:"tail_id"`
 }
 
-func createTimeline(
+func CreateTimeline(
 	conn Connection,
 	dbRequest CreateTimelineDBRequest) CreateTimelineDBResponse {
 
@@ -20,8 +20,8 @@ func createTimeline(
 	rows, err := conn.Gateway.Query(
 		`INSERT INTO rewild.timelines (head_id, tail_id)
 				VALUES ($1, $2) RETURNING timeline_id;`,
-		dbRequest.HeadID,
-		dbRequest.TailID,
+		nullIDString(dbRequest.HeadID),
+		nullIDString(dbRequest.TailID),
 	)
 
 	if err != nil {
