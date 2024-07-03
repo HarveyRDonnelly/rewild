@@ -5,32 +5,29 @@ import (
 	"github.com/google/uuid"
 	"net/http"
 	"rewild-it/api/db"
+	"rewild-it/api/entities"
 )
 
-type GetProjectResponse struct {
-	ProjectID         uuid_t `json:"project_id"`
-	Name              string `json:"name"`
-	Description       string `json:"description"`
-	PindropID         uuid_t `json:"pindrop_id"`
-	TimelineID        uuid_t `json:"timeline_id"`
-	DiscussionBoardID uuid_t `json:"discussion_board_id"`
-	FollowerCount     int    `json:"follower_count"`
-}
+type GetProjectResponse entities.Project
 
 func getProjectRoute(r *gin.Engine) *gin.Engine {
 	r.GET("/project/:project_id/", func(c *gin.Context) {
 
 		var projectID = uuid.Must(uuid.Parse(c.Param("project_id")))
-		var project = db.GetProject(
+
+		// Retrieve project info
+		projectDBResponse := db.GetProject(
 			DB,
 			db.GetProjectDBRequest{
 				ProjectID: projectID,
 			},
 		)
 
+		new_project := db.ConstructProject(DB, projectDBResponse)
+
 		c.JSON(
 			http.StatusOK,
-			GetProjectResponse(project),
+			new_project,
 		)
 
 	})
