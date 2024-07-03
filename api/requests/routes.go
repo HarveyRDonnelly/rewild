@@ -22,6 +22,9 @@ func Create() *gin.Engine {
 	r = createUserRoute(r)
 	r = getProjectRoute(r)
 	r = createProjectRoute(r)
+	r = createTimelinePostRoute(r)
+	r = updateProjectNameRoute(r)
+	r = updateProjectDescriptionRoute(r)
 
 	return r
 }

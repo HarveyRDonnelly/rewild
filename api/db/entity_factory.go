@@ -36,15 +36,17 @@ func ConstructTimeline(
 
 		nextTimelinePostID := currTimelinePostDBResponse.NextID
 
-		currTimelinePost := &entities.TimelinePost{
+		currTimelinePost := entities.TimelinePost{
 			TimelinePostID: currTimelinePostDBResponse.TimelinePostID,
-			Next:           nil,
-			Prev:           nil,
+			NextID:         currTimelinePostDBResponse.NextID,
+			PrevID:         uuid.Nil,
 			Title:          currTimelinePostDBResponse.Title,
 			Body:           currTimelinePostDBResponse.Body,
 		}
 
-		timeline.Head = currTimelinePost
+		timeline.Posts = append(timeline.Posts, currTimelinePost)
+
+		timeline.HeadID = currTimelinePostID
 
 		for nextTimelinePostID != uuid.Nil {
 
@@ -55,13 +57,15 @@ func ConstructTimeline(
 				},
 			)
 
-			nextTimelinePost := &entities.TimelinePost{
+			nextTimelinePost := entities.TimelinePost{
 				TimelinePostID: nextTimelinePostDBResponse.TimelinePostID,
-				Next:           nil,
-				Prev:           currTimelinePost,
+				NextID:         nextTimelinePostDBResponse.TimelinePostID,
+				PrevID:         currTimelinePostID,
 				Title:          nextTimelinePostDBResponse.Title,
 				Body:           nextTimelinePostDBResponse.Body,
 			}
+
+			timeline.Posts = append(timeline.Posts, nextTimelinePost)
 
 			currTimelinePostID = nextTimelinePostDBResponse.TimelinePostID
 			nextTimelinePostID = nextTimelinePostDBResponse.NextID
@@ -69,11 +73,11 @@ func ConstructTimeline(
 
 		}
 
-		timeline.Tail = currTimelinePost
+		timeline.TailID = currTimelinePostID
 
 	} else {
-		timeline.Head = nil
-		timeline.Tail = nil
+		timeline.HeadID = uuid.Nil
+		timeline.TailID = uuid.Nil
 	}
 	return timeline
 

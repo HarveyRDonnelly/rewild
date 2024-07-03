@@ -40,19 +40,20 @@ type Pindrop struct {
 
 // Timeline Entity
 type Timeline struct {
-	TimelineID uuid_t        `json:"timeline_id"`
-	Head       *TimelinePost `json:"head"`
-	Tail       *TimelinePost `json:"tail"`
+	TimelineID uuid_t         `json:"timeline_id"`
+	HeadID     uuid_t         `json:"head"`
+	TailID     uuid_t         `json:"tail"`
+	Posts      []TimelinePost `json:"posts"`
 }
 
 // Timeline Post Entity
 type TimelinePost struct {
-	TimelinePostID uuid_t        `json:"timeline_post_id"`
-	Next           *TimelinePost `json:"next"`
-	Prev           *TimelinePost `json:"prev"`
-	Title          string        `json:"title"`
-	Body           string        `json:"body"`
-	Images         []Image       `json:"images"`
+	TimelinePostID uuid_t  `json:"timeline_post_id"`
+	NextID         uuid_t  `json:"next_id"`
+	PrevID         uuid_t  `json:"prev_id"`
+	Title          string  `json:"title"`
+	Body           string  `json:"body"`
+	Images         []Image `json:"images"`
 }
 
 // Image Entity

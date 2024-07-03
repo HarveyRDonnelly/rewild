@@ -23,11 +23,11 @@ func getProjectRoute(r *gin.Engine) *gin.Engine {
 			},
 		)
 
-		new_project := db.ConstructProject(DB, projectDBResponse)
+		newProject := db.ConstructProject(DB, projectDBResponse)
 
 		c.JSON(
 			http.StatusOK,
-			new_project,
+			GetProjectResponse(newProject),
 		)
 
 	})
