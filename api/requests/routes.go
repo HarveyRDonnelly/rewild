@@ -18,6 +18,8 @@ func SetDB(db db.Connection) {
 func Create() *gin.Engine {
 	r := gin.Default()
 
+	r.MaxMultipartMemory = 8 << 20
+
 	r = getUserRoute(r)
 	r = createUserRoute(r)
 	r = getProjectRoute(r)
@@ -25,6 +27,9 @@ func Create() *gin.Engine {
 	r = createTimelinePostRoute(r)
 	r = updateProjectNameRoute(r)
 	r = updateProjectDescriptionRoute(r)
+	r = getPindropsRoute(r)
+	r = createImageRoute(r)
+	r = updateImageAltTextRoute(r)
 
 	return r
 }

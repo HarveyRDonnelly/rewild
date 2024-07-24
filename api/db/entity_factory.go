@@ -83,6 +83,15 @@ func ConstructTimeline(
 
 }
 
+func ConstructImage(
+	_ Connection,
+	dbResponse GetImageDBResponse) entities.Image {
+	return entities.Image{
+		ImageID: dbResponse.ImageID,
+		AltText: dbResponse.AltText,
+	}
+}
+
 func ConstructProject(
 	conn Connection,
 	dbResponse GetProjectDBResponse) entities.Project {

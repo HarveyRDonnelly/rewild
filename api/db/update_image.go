@@ -1,25 +1,24 @@
 package db
 
-type CreateImageDBRequest struct {
-	TimelinePostID uuid_t `json:"timeline_post_id"`
-	AltText        string `json:"alt_text"`
-}
-
-type CreateImageDBResponse struct {
+type UpdateImageDBRequest struct {
 	ImageID        uuid_t `json:"image_id"`
 	TimelinePostID uuid_t `json:"timeline_post_id"`
 	AltText        string `json:"alt_text"`
 }
 
-func CreateImage(
-	conn Connection,
-	dbRequest CreateImageDBRequest) CreateImageDBResponse {
+type UpdateImageDBResponse struct {
+	ImageID        uuid_t `json:"image_id"`
+	TimelinePostID uuid_t `json:"timeline_post_id"`
+	AltText        string `json:"alt_text"`
+}
 
-	var imageID uuid_t
+func UpdateImage(
+	conn Connection,
+	dbRequest UpdateImageDBRequest) UpdateImageDBResponse {
 
 	rows, err := conn.Gateway.Query(
-		`INSERT INTO rewild.images (timeline_post_id, alt_text)
-				VALUES ($1, $2) RETURNING image_id;`,
+		`UPDATE rewild.images SET timeline_post_id=$2, alt_text=$3 WHERE image_id=$1;;`,
+		nullIDString(dbRequest.ImageID),
 		nullIDString(dbRequest.TimelinePostID),
 		dbRequest.AltText,
 	)
@@ -29,23 +28,11 @@ func CreateImage(
 	}
 	defer rows.Close()
 
-	for rows.Next() {
-		err := rows.Scan(&imageID)
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	err = rows.Err()
-	if err != nil {
-		panic(err)
-	}
-
-	dbResponse := CreateImageDBResponse(
+	dbResponse := UpdateImageDBResponse(
 		GetImage(
 			conn,
 			GetImageDBRequest{
-				ImageID: imageID,
+				ImageID: dbRequest.ImageID,
 			},
 		),
 	)
