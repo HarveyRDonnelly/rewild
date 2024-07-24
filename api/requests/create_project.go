@@ -5,6 +5,7 @@ import (
 	"github.com/google/uuid"
 	"net/http"
 	"rewild-it/api/db"
+	"rewild-it/api/entities"
 )
 
 type CreateProjectRequest struct {
@@ -15,15 +16,7 @@ type CreateProjectRequest struct {
 	Followers        []uuid_t `json:"followers"`
 }
 
-type CreateProjectResponse struct {
-	ProjectID         uuid_t `json:"project_id"`
-	Name              string `json:"name"`
-	Description       string `json:"description"`
-	PindropID         uuid_t `json:"pindrop_id"`
-	TimelineID        uuid_t `json:"timeline_id"`
-	DiscussionBoardID uuid_t `json:"discussion_board_id"`
-	FollowerCount     int    `json:"follower_count"`
-}
+type CreateProjectResponse entities.Project
 
 func createProjectRoute(r *gin.Engine) *gin.Engine {
 
@@ -106,19 +99,17 @@ func createProjectRoute(r *gin.Engine) *gin.Engine {
 			)
 		}
 
-		// Create response object
-		newProject := CreateProjectResponse{
-			ProjectID:     projectDBResponse.ProjectID,
-			Name:          projectDBResponse.Name,
-			Description:   projectDBResponse.Description,
-			PindropID:     projectDBResponse.PindropID,
-			TimelineID:    projectDBResponse.TimelineID,
-			FollowerCount: projectDBResponse.FollowerCount,
-		}
+		newProjectDBResponse := db.GetProject(
+			DB,
+			db.GetProjectDBRequest{
+				ProjectID: projectDBResponse.ProjectID,
+			})
 
 		c.JSON(
 			http.StatusCreated,
-			newProject,
+			CreateProjectResponse(db.ConstructProject(
+				DB,
+				newProjectDBResponse)),
 		)
 	})
 

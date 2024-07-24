@@ -5,5 +5,9 @@
     "user": "postgres",
     "password": "postgrespw",
     "database": "rewild"
+  },
+  "discussion_board": {
+    "root_limit": 5,
+    "depth_limit": 5
   }
 }
