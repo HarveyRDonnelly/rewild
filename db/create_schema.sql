@@ -20,6 +20,13 @@ CREATE TABLE IF NOT EXISTS rewild.pindrops(
     PRIMARY KEY(pindrop_id)
 );
 
+CREATE TABLE IF NOT EXISTS rewild.images(
+    image_id            UUID DEFAULT gen_random_uuid(),
+    alt_text            TEXT,
+    created_ts      TIMESTAMP DEFAULT current_timestamp,
+    PRIMARY KEY(image_id)
+);
+
 CREATE TABLE IF NOT EXISTS rewild.timeline_posts(
     timeline_post_id    UUID DEFAULT gen_random_uuid(),
     next_id             UUID NULL,
@@ -36,6 +43,20 @@ CREATE TABLE IF NOT EXISTS rewild.timeline_posts(
             REFERENCES rewild.timeline_posts(timeline_post_id)
 );
 
+CREATE TABLE IF NOT EXISTS rewild.timeline_post_images(
+    timeline_post_id    UUID NOT NULL,
+    image_id            UUID NOT NULL,
+    arr_index           INT NOT NULL,
+    created_ts      TIMESTAMP DEFAULT current_timestamp,
+    PRIMARY KEY(timeline_post_id),
+    CONSTRAINT fk_timeline_post_id
+        FOREIGN KEY(timeline_post_id)
+            REFERENCES rewild.timeline_posts(timeline_post_id),
+    CONSTRAINT fk_image_id
+        FOREIGN KEY(image_id)
+            REFERENCES rewild.images(image_id)
+);
+
 CREATE TABLE IF NOT EXISTS rewild.timelines(
     timeline_id     UUID DEFAULT gen_random_uuid(),
     head_id         UUID NULL,
@@ -47,17 +68,6 @@ CREATE TABLE IF NOT EXISTS rewild.timelines(
             REFERENCES rewild.timeline_posts(timeline_post_id),
     CONSTRAINT fk_tail
         FOREIGN KEY(tail_id)
-            REFERENCES rewild.timeline_posts(timeline_post_id)
-);
-
-CREATE TABLE IF NOT EXISTS rewild.images(
-    image_id            UUID DEFAULT gen_random_uuid(),
-    timeline_post_id    UUID NOT NULL,
-    alt_text            TEXT,
-    created_ts      TIMESTAMP DEFAULT current_timestamp,
-    PRIMARY KEY(image_id),
-    CONSTRAINT fk_timeline_post
-        FOREIGN KEY(timeline_post_id)
             REFERENCES rewild.timeline_posts(timeline_post_id)
 );
 
@@ -75,7 +85,7 @@ CREATE TABLE IF NOT EXISTS rewild.discussion_board_messages(
 CREATE TABLE IF NOT EXISTS rewild.discussion_boards(
     discussion_board_id UUID DEFAULT gen_random_uuid(),
     root_id             UUID NOT NULL,
-    created_ts      TIMESTAMP DEFAULT current_timestamp,
+    created_ts          TIMESTAMP DEFAULT current_timestamp,
     PRIMARY KEY(discussion_board_id),
     CONSTRAINT fk_discussion_board
        FOREIGN KEY(root_id)
