@@ -23,8 +23,12 @@ func main() {
 		which_env = "default"
 	}
 
+	configFileBytes, _ := os.ReadFile("config/" + which_env + ".json")
+	configFileStr := string(configFileBytes)
+	configFileStr = os.ExpandEnv(configFileStr)
+
 	// Load environment config
-	err := config.LoadFiles("config/" + which_env + ".json")
+	err := config.LoadStrings("json", configFileStr)
 	if err != nil {
 		panic(err)
 	}

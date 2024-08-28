@@ -1,5 +1,3 @@
-version: "3"
-
 networks:
   api:
 
@@ -7,13 +5,20 @@ services:
   db:
     image: postgres
     restart: always
+    user: ${DB_USER}
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready" ]
       interval: 1s
       timeout: 5s
       retries: 10
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./db/create_schema.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    networks:
+      - api
   rewild_api:
     build:
       context: .

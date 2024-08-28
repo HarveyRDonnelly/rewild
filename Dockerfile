@@ -5,11 +5,10 @@ WORKDIR /rewild
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY *.go ./
-COPY *.json ./
+COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /rewild-api
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /rewild-api ./cmd/server.go
 
 EXPOSE 8080
 
-CMD ["/rewild-api"]
+ENTRYPOINT ["/rewild-api"]

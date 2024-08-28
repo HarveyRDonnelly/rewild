@@ -1,0 +1,13 @@
+{
+  "db": {
+    "host": "localhost",
+    "port": 5433,
+    "user": "$DB_USER",
+    "password": "$DB_PASSWORD",
+    "database": "$DB_NAME"
+  },
+  "discussion_board": {
+    "root_limit": 5,
+    "depth_limit": 5
+  }
+}
