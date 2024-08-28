@@ -4,11 +4,23 @@ networks:
   api:
 
 services:
-  rewild_it_api:
+  db:
+    image: postgres
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  rewild_api:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: rewild_it_api
+      dockerfile: Dockerfile.multistage
+    container_name: rewild_api
+    environment:
+      SERVER_ENV: production
     networks:
       - api
     ports:

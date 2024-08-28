@@ -1,8 +1,15 @@
+FROM golang:1.19
 
-FROM golang:alpine
-WORKDIR /server
-COPY ./ /server
+WORKDIR /rewild
 
+COPY go.mod go.sum ./
 RUN go mod download
 
-ENTRYPOINT go run cmd/rewild-it/server.go
+COPY *.go ./
+COPY *.json ./
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o /rewild-api
+
+EXPOSE 8080
+
+CMD ["/rewild-api"]
