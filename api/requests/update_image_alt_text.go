@@ -27,21 +27,12 @@ func updateImageAltTextRoute(r *gin.Engine) *gin.Engine {
 			panic(err)
 		}
 
-		// Retrieve project
-		imageDBResponse := db.GetImage(
-			DB,
-			db.GetImageDBRequest{
-				ImageID: imageID,
-			},
-		)
-
 		// Update project title
 		updatedImageDBResponse := db.UpdateImage(
 			DB,
 			db.UpdateImageDBRequest{
-				ImageID:        imageID,
-				AltText:        requestBody.AltText,
-				TimelinePostID: imageDBResponse.TimelinePostID,
+				ImageID: imageID,
+				AltText: requestBody.AltText,
 			},
 		)
 

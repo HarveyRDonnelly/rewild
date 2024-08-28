@@ -30,6 +30,7 @@ func Create() *gin.Engine {
 	r = getPindropsRoute(r)
 	r = createImageRoute(r)
 	r = updateImageAltTextRoute(r)
+	r = createTimelinePostImageRoute(r)
 
 	return r
 }

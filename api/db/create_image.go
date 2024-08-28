@@ -1,14 +1,12 @@
 package db
 
 type CreateImageDBRequest struct {
-	TimelinePostID uuid_t `json:"timeline_post_id"`
-	AltText        string `json:"alt_text"`
+	AltText string `json:"alt_text"`
 }
 
 type CreateImageDBResponse struct {
-	ImageID        uuid_t `json:"image_id"`
-	TimelinePostID uuid_t `json:"timeline_post_id"`
-	AltText        string `json:"alt_text"`
+	ImageID uuid_t `json:"image_id"`
+	AltText string `json:"alt_text"`
 }
 
 func CreateImage(
@@ -18,9 +16,8 @@ func CreateImage(
 	var imageID uuid_t
 
 	rows, err := conn.Gateway.Query(
-		`INSERT INTO rewild.images (timeline_post_id, alt_text)
-				VALUES ($1, $2) RETURNING image_id;`,
-		nullIDString(dbRequest.TimelinePostID),
+		`INSERT INTO rewild.images (alt_text)
+				VALUES ($1) RETURNING image_id;`,
 		dbRequest.AltText,
 	)
 

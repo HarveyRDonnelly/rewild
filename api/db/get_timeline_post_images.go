@@ -1,23 +1,24 @@
 package db
 
-type GetImagesDBRequest struct {
+type GetTimelinePostImagesDBRequest struct {
 	TimelinePostID uuid_t `json:"timeline_post_id"`
 }
 
-type GetImagesDBResponse struct {
+type GetTimelinePostImagesDBResponse struct {
 	Images []GetImageDBResponse `json:"images"`
 }
 
-func GetImages(
+func GetTimelinePostImages(
 	conn Connection,
-	dbRequest GetImagesDBRequest) GetImagesDBResponse {
+	dbRequest GetTimelinePostImagesDBRequest) GetTimelinePostImagesDBResponse {
 
-	var dbResponse GetImagesDBResponse
+	var dbResponse GetTimelinePostImagesDBResponse
 	var currImageDBResponse GetImageDBResponse
-	currImageDBResponse.TimelinePostID = dbRequest.TimelinePostID
+	var currImageDBRequest GetImageDBRequest
 
 	rows, err := conn.Gateway.Query(
-		`SELECT image_id, alt_text FROM rewild.images WHERE timeline_post_id=$1;`,
+		`SELECT image_id FROM rewild.timeline_post_images WHERE timeline_post_id=$1
+				ORDER BY arr_index;`,
 		nullIDString(dbRequest.TimelinePostID))
 
 	if err != nil {
@@ -28,8 +29,12 @@ func GetImages(
 	for rows.Next() {
 
 		err := rows.Scan(
-			&currImageDBResponse.TimelinePostID,
-			&currImageDBResponse.AltText,
+			&currImageDBRequest.ImageID,
+		)
+
+		currImageDBResponse = GetImage(
+			conn,
+			currImageDBRequest,
 		)
 
 		dbResponse.Images = append(dbResponse.Images, currImageDBResponse)

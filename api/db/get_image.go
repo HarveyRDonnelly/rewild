@@ -5,9 +5,8 @@ type GetImageDBRequest struct {
 }
 
 type GetImageDBResponse struct {
-	ImageID        uuid_t `json:"image_id"`
-	TimelinePostID uuid_t `json:"timeline_post_id"`
-	AltText        string `json:"alt_text"`
+	ImageID uuid_t `json:"image_id"`
+	AltText string `json:"alt_text"`
 }
 
 func GetImage(
@@ -18,7 +17,7 @@ func GetImage(
 	dbResponse.ImageID = dbRequest.ImageID
 
 	rows, err := conn.Gateway.Query(
-		`SELECT timeline_post_id, alt_text FROM rewild.images WHERE image_id=$1;`,
+		`SELECT alt_text FROM rewild.images WHERE image_id=$1;`,
 		nullIDString(dbRequest.ImageID))
 
 	if err != nil {
@@ -29,7 +28,6 @@ func GetImage(
 	for rows.Next() {
 
 		err := rows.Scan(
-			&dbResponse.TimelinePostID,
 			&dbResponse.AltText,
 		)
 		if err != nil {
