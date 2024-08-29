@@ -177,14 +177,21 @@ func ConstructProject(
 	conn Connection,
 	dbResponse GetProjectDBResponse) entities.Project {
 
+	// Load project absolute path
+	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
+
 	// Load environment variables
-	var which_env, is_env_set = os.LookupEnv("SERVER_ENV")
-	if !is_env_set {
-		which_env = "default"
+	var whichEnv, isEnvSet = os.LookupEnv("SERVER_ENV")
+	if !isEnvSet {
+		whichEnv = "default"
 	}
 
+	configFileBytes, _ := os.ReadFile(absolutePath + "config/" + whichEnv + ".json")
+	configFileStr := string(configFileBytes)
+	configFileStr = os.ExpandEnv(configFileStr)
+
 	// Load environment config
-	err := config.LoadFiles("config/" + which_env + ".json")
+	err := config.LoadStrings("json", configFileStr)
 	if err != nil {
 		panic(err)
 	}

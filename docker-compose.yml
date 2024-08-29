@@ -25,13 +25,17 @@ services:
       dockerfile: Dockerfile.multistage
     container_name: rewild_api
     environment:
-      SERVER_ENV: ${SERVER_ENV},
-      DB_USER: ${DB_USER},
-      DB_NAME: ${DB_NAME},
+      SERVER_ENV: ${SERVER_ENV}
+      DB_USER: ${DB_USER}
+      DB_NAME: ${DB_NAME}
       DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+      DB_HOST: ${DB_HOST}
+      PROJECT_PATH: ${PROJECT_PATH}
     networks:
       - api
     ports:
       - 8080:8080
     volumes:
-      - ./:/app
+      - ./res:/rewild/res
+      - ./config:/rewild/config

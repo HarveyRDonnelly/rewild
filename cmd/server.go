@@ -17,13 +17,16 @@ var conn db.Connection
 
 func main() {
 
+	// Load project absolute path
+	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
+
 	// Load environment variables
-	var which_env, is_env_set = os.LookupEnv("SERVER_ENV")
-	if !is_env_set {
-		which_env = "default"
+	var whichEnv, isEnvSet = os.LookupEnv("SERVER_ENV")
+	if !isEnvSet {
+		whichEnv = "default"
 	}
 
-	configFileBytes, _ := os.ReadFile("config/" + which_env + ".json")
+	configFileBytes, _ := os.ReadFile(absolutePath + "config/" + whichEnv + ".json")
 	configFileStr := string(configFileBytes)
 	configFileStr = os.ExpandEnv(configFileStr)
 

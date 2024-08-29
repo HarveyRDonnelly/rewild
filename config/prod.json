@@ -1,7 +1,7 @@
 {
   "db": {
-    "host": "localhost",
-    "port": 5433,
+    "host": "$DB_HOST",
+    "port": "$DB_PORT",
     "user": "$DB_USER",
     "password": "$DB_PASSWORD",
     "database": "$DB_NAME"
