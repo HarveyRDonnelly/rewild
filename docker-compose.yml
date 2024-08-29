@@ -25,7 +25,10 @@ services:
       dockerfile: Dockerfile.multistage
     container_name: rewild_api
     environment:
-      SERVER_ENV: production
+      SERVER_ENV: ${SERVER_ENV},
+      DB_USER: ${DB_USER},
+      DB_NAME: ${DB_NAME},
+      DB_PASSWORD: ${DB_PASSWORD}
     networks:
       - api
     ports:
