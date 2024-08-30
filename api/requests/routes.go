@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"rewild-it/api/db"
+	"rewild-it/api/middleware"
 )
 
 // Alias UUID type
@@ -20,6 +21,10 @@ func Create() *gin.Engine {
 
 	r.MaxMultipartMemory = 8 << 20
 
+	// Middleware
+	r.Use(middleware.AuthHandler)
+
+	// Routes
 	r = getUserRoute(r)
 	r = createUserRoute(r)
 	r = getProjectRoute(r)
@@ -31,6 +36,7 @@ func Create() *gin.Engine {
 	r = createImageRoute(r)
 	r = updateImageAltTextRoute(r)
 	r = createTimelinePostImageRoute(r)
+	r = createDiscussionBoardMessageRoute(r)
 
 	return r
 }

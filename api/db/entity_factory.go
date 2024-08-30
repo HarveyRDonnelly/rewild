@@ -38,12 +38,32 @@ func ConstructTimeline(
 
 		nextTimelinePostID := currTimelinePostDBResponse.NextID
 
+		currTimelinePostImagesDBResponse := GetTimelinePostImages(
+			conn,
+			GetTimelinePostImagesDBRequest{
+				TimelinePostID: currTimelinePostID,
+			},
+		)
+
+		var currTimelinePostImages = make([]entities.Image, 0)
+
+		for i := 0; i < len(currTimelinePostImagesDBResponse.Images); i++ {
+			currTimelinePostImages = append(
+				currTimelinePostImages,
+				ConstructImage(
+					conn,
+					currTimelinePostImagesDBResponse.Images[i],
+				),
+			)
+		}
+
 		currTimelinePost := entities.TimelinePost{
 			TimelinePostID: currTimelinePostDBResponse.TimelinePostID,
 			NextID:         currTimelinePostDBResponse.NextID,
 			PrevID:         uuid.Nil,
 			Title:          currTimelinePostDBResponse.Title,
 			Body:           currTimelinePostDBResponse.Body,
+			Images:         currTimelinePostImages,
 		}
 
 		timeline.Posts = append(timeline.Posts, currTimelinePost)
@@ -59,12 +79,32 @@ func ConstructTimeline(
 				},
 			)
 
+			nextTimelinePostImagesDBResponse := GetTimelinePostImages(
+				conn,
+				GetTimelinePostImagesDBRequest{
+					TimelinePostID: nextTimelinePostID,
+				},
+			)
+
+			var nextTimelinePostImages []entities.Image
+
+			for i := 0; i < len(nextTimelinePostImagesDBResponse.Images); i++ {
+				nextTimelinePostImages = append(
+					nextTimelinePostImages,
+					ConstructImage(
+						conn,
+						nextTimelinePostImagesDBResponse.Images[i],
+					),
+				)
+			}
+
 			nextTimelinePost := entities.TimelinePost{
 				TimelinePostID: nextTimelinePostDBResponse.TimelinePostID,
 				NextID:         nextTimelinePostDBResponse.TimelinePostID,
 				PrevID:         currTimelinePostID,
 				Title:          nextTimelinePostDBResponse.Title,
 				Body:           nextTimelinePostDBResponse.Body,
+				Images:         nextTimelinePostImages,
 			}
 
 			timeline.Posts = append(timeline.Posts, nextTimelinePost)
@@ -100,7 +140,7 @@ func ConstructDiscussionBoardMessageLimited(
 	rootLimit int,
 	depthLimit int) entities.DiscussionBoardMessage {
 
-	var childMessages []*entities.DiscussionBoardMessage
+	var childMessages = make([]*entities.DiscussionBoardMessage, 0)
 	var currChildMessage entities.DiscussionBoardMessage
 
 	currMessage := entities.DiscussionBoardMessage{
@@ -120,6 +160,10 @@ func ConstructDiscussionBoardMessageLimited(
 		rootLimit = len(childMessagesDBResponse.ChildMessages)
 	}
 
+	if len(childMessagesDBResponse.ChildMessages) < rootLimit {
+		rootLimit = len(childMessagesDBResponse.ChildMessages)
+	}
+
 	// Recursively construct children
 	if depthLimit > 0 {
 
@@ -128,11 +172,9 @@ func ConstructDiscussionBoardMessageLimited(
 			currChildMessage = ConstructDiscussionBoardMessageLimited(
 				conn,
 				childMessagesDBResponse.ChildMessages[i],
-				-1,
+				rootLimit-1,
 				depthLimit-1,
 			)
-
-			currChildMessage.Parent = &currMessage
 
 			childMessages = append(
 				childMessages,
@@ -225,7 +267,7 @@ func ConstructProject(
 		conn,
 		discussionBoardDBResponse,
 		config.Int("discussion_board.root_limit"),
-		config.Int("discussion_board.root_depth"),
+		config.Int("discussion_board.depth_limit"),
 	)
 
 	return entities.Project{
