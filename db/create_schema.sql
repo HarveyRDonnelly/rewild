@@ -75,11 +75,15 @@ CREATE TABLE IF NOT EXISTS rewild.discussion_board_messages(
     discussion_board_message_id     UUID DEFAULT gen_random_uuid(),
     parent_id                       UUID NULL,
     body                            TEXT,
+    author_id                       UUID NULL,
     created_ts      TIMESTAMP DEFAULT current_timestamp,
     PRIMARY KEY(discussion_board_message_id),
     CONSTRAINT fk_parent
         FOREIGN KEY(parent_id)
-            REFERENCES rewild.discussion_board_messages(discussion_board_message_id)
+            REFERENCES rewild.discussion_board_messages(discussion_board_message_id),
+    CONSTRAINT fk_author
+        FOREIGN KEY(author_id)
+            REFERENCES rewild.users(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS rewild.discussion_boards(

@@ -35,6 +35,7 @@ func createProjectRoute(r *gin.Engine) *gin.Engine {
 			DB,
 			db.CreateDiscussionBoardMessageDBRequest{
 				ParentID: uuid.Nil,
+				AuthorID: uuid.Nil,
 				Body:     "",
 			},
 		)

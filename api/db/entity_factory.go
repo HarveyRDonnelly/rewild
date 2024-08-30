@@ -146,6 +146,7 @@ func ConstructDiscussionBoardMessageLimited(
 	currMessage := entities.DiscussionBoardMessage{
 		DiscussionBoardMessageID: dbResponse.DiscussionBoardMessageID,
 		Body:                     dbResponse.Body,
+		AuthorID:                 dbResponse.AuthorID,
 	}
 
 	// Retrieve message children
