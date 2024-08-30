@@ -19,7 +19,7 @@ func GetPindrop(
 
 	rows, err := conn.Gateway.Query(
 		`SELECT latitude, longitude FROM rewild.pindrops WHERE pindrop_id=$1;`,
-		nullIDString(dbRequest.PindropID))
+		dbRequest.PindropID)
 
 	if err != nil {
 		panic(err)

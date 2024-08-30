@@ -26,7 +26,7 @@ func ConstructTimeline(
 	timeline.Posts = make([]entities.TimelinePost, 0)
 	timeline.TimelineID = dbResponse.TimelineID
 
-	if dbResponse.HeadID != uuid.Nil {
+	if dbResponse.HeadID.Valid == true {
 
 		currTimelinePostID := dbResponse.HeadID
 
@@ -61,7 +61,7 @@ func ConstructTimeline(
 		currTimelinePost := entities.TimelinePost{
 			TimelinePostID: currTimelinePostDBResponse.TimelinePostID,
 			NextID:         currTimelinePostDBResponse.NextID,
-			PrevID:         uuid.Nil,
+			PrevID:         uuid.NullUUID{Valid: false},
 			Title:          currTimelinePostDBResponse.Title,
 			Body:           currTimelinePostDBResponse.Body,
 			Images:         currTimelinePostImages,
@@ -71,7 +71,7 @@ func ConstructTimeline(
 
 		timeline.HeadID = currTimelinePostID
 
-		for nextTimelinePostID != uuid.Nil {
+		for nextTimelinePostID.Valid == true {
 
 			nextTimelinePostDBResponse := GetTimelinePost(
 				conn,
@@ -119,8 +119,8 @@ func ConstructTimeline(
 		timeline.TailID = currTimelinePostID
 
 	} else {
-		timeline.HeadID = uuid.Nil
-		timeline.TailID = uuid.Nil
+		timeline.HeadID = uuid.NullUUID{Valid: false}
+		timeline.TailID = uuid.NullUUID{Valid: false}
 	}
 	return timeline
 

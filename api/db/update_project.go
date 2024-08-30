@@ -28,12 +28,12 @@ func UpdateProject(
 		`UPDATE rewild.projects 
 			SET name=$2, description=$3, pindrop_id=$4, timeline_id=$5, discussion_board_id=$6, follower_count=$7 
 				WHERE project_id=$1;;`,
-		nullIDString(dbRequest.ProjectID),
+		dbRequest.ProjectID,
 		dbRequest.Name,
 		dbRequest.Description,
-		nullIDString(dbRequest.PindropID),
-		nullIDString(dbRequest.TimelineID),
-		nullIDString(dbRequest.DiscussionBoardID),
+		dbRequest.PindropID,
+		dbRequest.TimelineID,
+		dbRequest.DiscussionBoardID,
 		dbRequest.FollowerCount,
 	)
 

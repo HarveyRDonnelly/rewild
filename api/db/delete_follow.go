@@ -17,8 +17,8 @@ func DeleteFollow(
 	rows, err := conn.Gateway.Query(
 		`DELETE FROM rewild.follows
 				WHERE user_id=$1 AND project_id=$2;`,
-		nullIDString(dbRequest.UserID),
-		nullIDString(dbRequest.ProjectID),
+		dbRequest.UserID,
+		dbRequest.ProjectID,
 	)
 
 	if err != nil {

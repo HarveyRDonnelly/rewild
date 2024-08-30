@@ -22,9 +22,9 @@ func UpdateTimelinePost(
 
 	rows, err := conn.Gateway.Query(
 		`UPDATE rewild.timeline_posts SET next_id=$2, prev_id=$3, title=$4, body=$5 WHERE timeline_post_id=$1;;`,
-		nullIDString(dbRequest.TimelinePostID),
-		nullIDString(dbRequest.NextID),
-		nullIDString(dbRequest.PrevID),
+		dbRequest.TimelinePostID,
+		dbRequest.NextID,
+		dbRequest.PrevID,
 		dbRequest.Title,
 		dbRequest.Body,
 	)

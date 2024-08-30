@@ -19,7 +19,7 @@ func GetDiscussionBoardMessageChildren(
 
 	rows, err := conn.Gateway.Query(
 		`SELECT discussion_board_message_id, body, author_id FROM rewild.discussion_board_messages WHERE parent_id=$1;`,
-		nullIDString(dbRequest.ParentMessageID))
+		dbRequest.ParentMessageID)
 
 	if err != nil {
 		panic(err)

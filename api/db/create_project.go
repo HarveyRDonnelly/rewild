@@ -36,9 +36,9 @@ func CreateProject(
 				 ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING project_id;`,
 		dbRequest.Name,
 		dbRequest.Description,
-		nullIDString(dbRequest.PindropID),
-		nullIDString(dbRequest.TimelineID),
-		nullIDString(dbRequest.DiscussionBoardID),
+		dbRequest.PindropID,
+		dbRequest.TimelineID,
+		dbRequest.DiscussionBoardID,
 		dbRequest.FollowerCount,
 	)
 

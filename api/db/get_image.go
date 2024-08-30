@@ -18,7 +18,7 @@ func GetImage(
 
 	rows, err := conn.Gateway.Query(
 		`SELECT alt_text FROM rewild.images WHERE image_id=$1;`,
-		nullIDString(dbRequest.ImageID))
+		dbRequest.ImageID)
 
 	if err != nil {
 		panic(err)

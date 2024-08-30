@@ -19,7 +19,10 @@ func updateImageAltTextRoute(r *gin.Engine) *gin.Engine {
 	r.PATCH("/image/:image_id", func(c *gin.Context) {
 
 		var requestBody UpdateImageAltTextRequest
-		var imageID = uuid.Must(uuid.Parse(c.Param("image_id")))
+		var imageID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("image_id"))),
+			Valid: true,
+		}
 
 		err := c.BindJSON(&requestBody)
 

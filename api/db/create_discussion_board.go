@@ -18,7 +18,7 @@ func CreateDiscussionBoard(
 	rows, err := conn.Gateway.Query(
 		`INSERT INTO rewild.discussion_boards (root_id)
 				VALUES ($1) RETURNING discussion_board_id;`,
-		nullIDString(dbRequest.RootID),
+		dbRequest.RootID,
 	)
 
 	if err != nil {

@@ -13,7 +13,10 @@ type GetProjectResponse entities.Project
 func getProjectRoute(r *gin.Engine) *gin.Engine {
 	r.GET("/project/:project_id/", func(c *gin.Context) {
 
-		var projectID = uuid.Must(uuid.Parse(c.Param("project_id")))
+		var projectID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("project_id"))),
+			Valid: true,
+		}
 
 		// Retrieve project info
 		projectDBResponse := db.GetProject(

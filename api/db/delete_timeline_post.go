@@ -18,7 +18,7 @@ func DeleteTimelinePost(
 	rows, err := conn.Gateway.Query(
 		`DELETE FROM rewild.timeline_posts
                 WHERE timeline_post_id=$1;`,
-		nullIDString(dbRequest.TimelinePostID))
+		dbRequest.TimelinePostID)
 
 	if err != nil {
 		panic(err)

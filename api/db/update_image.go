@@ -16,7 +16,7 @@ func UpdateImage(
 
 	rows, err := conn.Gateway.Query(
 		`UPDATE rewild.images SET alt_text=$3 WHERE image_id=$1;;`,
-		nullIDString(dbRequest.ImageID),
+		dbRequest.ImageID,
 		dbRequest.AltText,
 	)
 

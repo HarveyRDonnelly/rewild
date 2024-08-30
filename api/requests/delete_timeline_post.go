@@ -11,8 +11,14 @@ func deleteTimelinePostRoute(r *gin.Engine) *gin.Engine {
 
 	r.DELETE("/project/:project_id/timeline/post/:timeline_post_id", func(c *gin.Context) {
 
-		var timelinePostID = uuid.Must(uuid.Parse(c.Param("timeline_post_id")))
-		var projectID = uuid.Must(uuid.Parse(c.Param("project_id")))
+		var timelinePostID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("timeline_post_id"))),
+			Valid: true,
+		}
+		var projectID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("project_id"))),
+			Valid: true,
+		}
 
 		projectDBResponse := db.GetProject(
 			DB,
@@ -38,7 +44,7 @@ func deleteTimelinePostRoute(r *gin.Engine) *gin.Engine {
 			},
 		)
 
-		if currTimelinePostDBResponse.PrevID == uuid.Nil {
+		if currTimelinePostDBResponse.PrevID.Valid == false {
 			currTimelineDBResponse.HeadID = currTimelinePostDBResponse.NextID
 		} else {
 			prevTimelinePostDBResponse := db.GetTimelinePost(
@@ -54,7 +60,7 @@ func deleteTimelinePostRoute(r *gin.Engine) *gin.Engine {
 			)
 		}
 
-		if currTimelinePostDBResponse.NextID == uuid.Nil {
+		if currTimelinePostDBResponse.NextID.Valid == false {
 			currTimelineDBResponse.TailID = currTimelinePostDBResponse.PrevID
 		} else {
 			nextTimelinePostDBResponse := db.GetTimelinePost(

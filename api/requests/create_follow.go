@@ -19,7 +19,10 @@ func createFollowRoute(r *gin.Engine) *gin.Engine {
 
 	r.POST("/project/:project_id/follow", func(c *gin.Context) {
 
-		var projectID = uuid.Must(uuid.Parse(c.Param("project_id")))
+		var projectID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("project_id"))),
+			Valid: true,
+		}
 		var requestBody CreateFollowRequest
 		err := c.BindJSON(&requestBody)
 		if err != nil {

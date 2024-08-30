@@ -20,7 +20,10 @@ func createTimelinePostRoute(r *gin.Engine) *gin.Engine {
 	r.POST("/project/:project_id/timeline", func(c *gin.Context) {
 
 		var requestBody CreateTimelinePostRequest
-		var projectID = uuid.Must(uuid.Parse(c.Param("project_id")))
+		var projectID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("project_id"))),
+			Valid: true,
+		}
 
 		err := c.BindJSON(&requestBody)
 
@@ -48,7 +51,7 @@ func createTimelinePostRoute(r *gin.Engine) *gin.Engine {
 		newTimelinePostDBResponse := db.CreateTimelinePost(
 			DB,
 			db.CreateTimelinePostDBRequest{
-				NextID: uuid.Nil,
+				NextID: uuid.NullUUID{Valid: false},
 				PrevID: timelineDBResponse.TailID,
 				Title:  requestBody.Title,
 				Body:   requestBody.Body,

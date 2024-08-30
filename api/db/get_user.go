@@ -20,7 +20,7 @@ func GetUser(conn Connection, dbRequest GetUserDBRequest) GetUserDBResponse {
 
 	rows, err := conn.Gateway.Query(
 		`SELECT first_name, last_name, email, username FROM rewild.users WHERE user_id=$1;`,
-		dbRequest.UserID.String())
+		dbRequest.UserID.UUID.String())
 
 	if err != nil {
 		panic(err)
@@ -58,7 +58,7 @@ func getUsersProjectIDs(conn Connection, userID uuid_t) []uuid_t {
 
 	rows, err := conn.Gateway.Query(
 		`SELECT project_id FROM rewild.follows WHERE user_id=$1;`,
-		nullIDString(userID))
+		userID)
 
 	if err != nil {
 		panic(err)

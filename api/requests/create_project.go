@@ -34,8 +34,8 @@ func createProjectRoute(r *gin.Engine) *gin.Engine {
 		discussionBoardMessageDBResponse := db.CreateDiscussionBoardMessage(
 			DB,
 			db.CreateDiscussionBoardMessageDBRequest{
-				ParentID: uuid.Nil,
-				AuthorID: uuid.Nil,
+				ParentID: uuid.NullUUID{Valid: false},
+				AuthorID: uuid.NullUUID{Valid: false},
 				Body:     "",
 			},
 		)
@@ -52,8 +52,8 @@ func createProjectRoute(r *gin.Engine) *gin.Engine {
 		timelinePostDBResponse := db.CreateTimelinePost(
 			DB,
 			db.CreateTimelinePostDBRequest{
-				NextID: uuid.Nil,
-				PrevID: uuid.Nil,
+				NextID: uuid.NullUUID{Valid: false},
+				PrevID: uuid.NullUUID{Valid: false},
 				Title:  "Let's start rewilding!",
 				Body:   "",
 			})

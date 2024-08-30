@@ -18,9 +18,9 @@ func UpdateTimeline(
 
 	rows, err := conn.Gateway.Query(
 		`UPDATE rewild.timelines SET head_id=$2, tail_id=$3 WHERE timeline_id=$1;;`,
-		nullIDString(dbRequest.TimelineID),
-		nullIDString(dbRequest.HeadID),
-		nullIDString(dbRequest.TailID),
+		dbRequest.TimelineID,
+		dbRequest.HeadID,
+		dbRequest.TailID,
 	)
 
 	if err != nil {

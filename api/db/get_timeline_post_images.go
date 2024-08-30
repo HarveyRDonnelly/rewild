@@ -19,7 +19,7 @@ func GetTimelinePostImages(
 	rows, err := conn.Gateway.Query(
 		`SELECT image_id FROM rewild.timeline_post_images WHERE timeline_post_id=$1
 				ORDER BY arr_index;`,
-		nullIDString(dbRequest.TimelinePostID))
+		dbRequest.TimelinePostID)
 
 	if err != nil {
 		panic(err)

@@ -19,7 +19,10 @@ type GetUserResponse struct {
 func getUserRoute(r *gin.Engine) *gin.Engine {
 	r.GET("/user/:user_id/", func(c *gin.Context) {
 
-		var userID = uuid.Must(uuid.Parse(c.Param("user_id")))
+		var userID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("user_id"))),
+			Valid: true,
+		}
 		var user = db.GetUser(
 			DB,
 			db.GetUserDBRequest{

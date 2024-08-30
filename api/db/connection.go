@@ -8,7 +8,7 @@ import (
 )
 
 // Alias UUID type
-type uuid_t = uuid.UUID
+type uuid_t = uuid.NullUUID
 
 type Connection struct {
 	Host     string
@@ -39,15 +39,4 @@ func Connect(conn Connection) Connection {
 	conn.Gateway = db
 
 	return conn
-}
-
-func nullIDString(id uuid_t) sql.NullString {
-	idString := sql.NullString{
-		String: id.String(),
-		Valid:  true,
-	}
-	if id == uuid.Nil {
-		idString.Valid = false
-	}
-	return idString
 }

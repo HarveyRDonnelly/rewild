@@ -19,7 +19,10 @@ func updateProjectDescriptionRoute(r *gin.Engine) *gin.Engine {
 	r.PATCH("/project/:project_id/description", func(c *gin.Context) {
 
 		var requestBody UpdateProjectDescriptionPostRequest
-		var projectID = uuid.Must(uuid.Parse(c.Param("project_id")))
+		var projectID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("project_id"))),
+			Valid: true,
+		}
 
 		err := c.BindJSON(&requestBody)
 

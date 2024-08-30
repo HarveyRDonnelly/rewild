@@ -23,8 +23,14 @@ func createTimelinePostImageRoute(r *gin.Engine) *gin.Engine {
 
 		var requestBody CreateTimelinePostImageRequest
 
-		requestBody.TimelinePostID = uuid.Must(uuid.Parse(c.Param("timeline_post_id")))
-		requestBody.ImageID = uuid.Must(uuid.Parse(c.Param("image_id")))
+		requestBody.TimelinePostID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("timeline_post_id"))),
+			Valid: true,
+		}
+		requestBody.ImageID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("timeline_post_id"))),
+			Valid: true,
+		}
 
 		timelinePostImagesDBResponse := db.GetTimelinePostImages(
 			DB,

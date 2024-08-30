@@ -20,8 +20,8 @@ func CreateTimeline(
 	rows, err := conn.Gateway.Query(
 		`INSERT INTO rewild.timelines (head_id, tail_id)
 				VALUES ($1, $2) RETURNING timeline_id;`,
-		nullIDString(dbRequest.HeadID),
-		nullIDString(dbRequest.TailID),
+		dbRequest.HeadID,
+		dbRequest.TailID,
 	)
 
 	if err != nil {

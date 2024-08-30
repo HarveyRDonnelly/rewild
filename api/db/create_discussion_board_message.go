@@ -22,9 +22,9 @@ func CreateDiscussionBoardMessage(
 	rows, err := conn.Gateway.Query(
 		`INSERT INTO rewild.discussion_board_messages (parent_id, body, author_id)
 				VALUES ($1, $2, $3) RETURNING discussion_board_message_id;`,
-		nullIDString(dbRequest.ParentID),
+		dbRequest.ParentID,
 		dbRequest.Body,
-		nullIDString(dbRequest.AuthorID),
+		dbRequest.AuthorID,
 	)
 
 	if err != nil {

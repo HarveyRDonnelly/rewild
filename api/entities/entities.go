@@ -8,7 +8,7 @@ import (
 )
 
 // Alias UUID type
-type uuid_t = uuid.UUID
+type uuid_t = uuid.NullUUID
 
 // User Entity
 type User struct {

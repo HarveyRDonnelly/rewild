@@ -11,7 +11,10 @@ func deleteDiscussionBoardMessageRoute(r *gin.Engine) *gin.Engine {
 
 	r.DELETE("/discussion/message/:discussion_board_message_id", func(c *gin.Context) {
 
-		var discussionBoardMessageID = uuid.Must(uuid.Parse(c.Param("discussion_board_message_id")))
+		var discussionBoardMessageID = uuid.NullUUID{
+			UUID:  uuid.Must(uuid.Parse(c.Param("discussion_board_message_id"))),
+			Valid: true,
+		}
 
 		db.DeleteDiscussionBoardMessage(
 			DB,

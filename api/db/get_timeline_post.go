@@ -21,7 +21,7 @@ func GetTimelinePost(
 
 	rows, err := conn.Gateway.Query(
 		`SELECT next_id, prev_id, title, body FROM rewild.timeline_posts WHERE timeline_post_id=$1;`,
-		nullIDString(dbRequest.TimelinePostID))
+		dbRequest.TimelinePostID)
 
 	if err != nil {
 		panic(err)

@@ -24,8 +24,8 @@ func CreateTimelinePost(
 	rows, err := conn.Gateway.Query(
 		`INSERT INTO rewild.timeline_posts (next_id, prev_id, title, body)
 				VALUES ($1, $2, $3, $4) RETURNING timeline_post_id;`,
-		nullIDString(dbRequest.NextID),
-		nullIDString(dbRequest.PrevID),
+		dbRequest.NextID,
+		dbRequest.PrevID,
 		dbRequest.Title,
 		dbRequest.Body,
 	)

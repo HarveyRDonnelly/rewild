@@ -19,7 +19,7 @@ func GetTimeline(
 
 	rows, err := conn.Gateway.Query(
 		`SELECT head_id, tail_id FROM rewild.timelines WHERE timeline_id=$1;`,
-		nullIDString(dbRequest.TimelineID),
+		dbRequest.TimelineID,
 	)
 
 	if err != nil {
