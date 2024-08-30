@@ -37,6 +37,7 @@ func Create() *gin.Engine {
 	r = updateImageAltTextRoute(r)
 	r = createTimelinePostImageRoute(r)
 	r = createDiscussionBoardMessageRoute(r)
+	r = createFollowRoute(r)
 
 	return r
 }

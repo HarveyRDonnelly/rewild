@@ -27,9 +27,7 @@ func createUserRoute(r *gin.Engine) *gin.Engine {
 	r.POST("/user/", func(c *gin.Context) {
 
 		var requestBody CreateUserRequest
-
 		err := c.BindJSON(&requestBody)
-
 		if err != nil {
 			panic(err)
 		}
