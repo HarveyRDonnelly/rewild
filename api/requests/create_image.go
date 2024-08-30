@@ -3,6 +3,7 @@ package requests
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 	"rewild-it/api/db"
 	"rewild-it/api/entities"
 )
@@ -11,9 +12,12 @@ type CreateImageResponse entities.Image
 
 func createImageRoute(r *gin.Engine) *gin.Engine {
 
+	// Load project absolute path
+	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
+
 	r.POST("/image/", func(c *gin.Context) {
 
-		imageFile, _ := c.FormFile("image")
+		imageFile, _ := c.FormFile("image_file")
 		altText, _ := c.GetPostForm("alt_text")
 
 		dbResponse := db.CreateImage(
@@ -23,7 +27,7 @@ func createImageRoute(r *gin.Engine) *gin.Engine {
 			},
 		)
 
-		err := c.SaveUploadedFile(imageFile, "./res/"+dbResponse.ImageID.String()+".png")
+		err := c.SaveUploadedFile(imageFile, absolutePath+"/res/"+dbResponse.ImageID.String()+".png")
 
 		if err != nil {
 			panic(err)
