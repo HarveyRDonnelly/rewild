@@ -2,8 +2,7 @@
 <img src="docs/graphics/banner_1.png" width="100%" />
 
 # 🌸 Rewild it: Backend API 🌸
-[![Static Badge](https://img.shields.io/badge/Backend_Lead-Harvey_Donnelly-darkgreen?style=plastic&labelColor=green&color=darkgreen)
-](https://github.com/HarveyRDonnelly)
+[![Static Badge](https://img.shields.io/badge/Backend_Lead-Harvey_Donnelly-darkgreen?style=plastic&labelColor=green&color=darkgreen)](https://github.com/HarveyRDonnelly)&emsp;&emsp;
 [![Static Badge](https://img.shields.io/badge/Frontend_Lead-Ewan_Jordan-darkgreen?style=plastic&labelColor=green&color=darkgreen)](https://github.com/skoooch)
 
 **Rewild it** is a platform to organize, collaborate and inspire grassroots rewilding initiatives within local communities across Toronto.
