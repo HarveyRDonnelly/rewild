@@ -23,6 +23,7 @@ func ConstructTimeline(
 	dbResponse GetTimelineDBResponse) entities.Timeline {
 
 	var timeline entities.Timeline
+	timeline.Posts = make([]entities.TimelinePost, 0)
 	timeline.TimelineID = dbResponse.TimelineID
 
 	if dbResponse.HeadID != uuid.Nil {
