@@ -70,7 +70,7 @@ type DiscussionBoard struct {
 
 // Discussion Board Message Entity
 type DiscussionBoardMessage struct {
-	DiscussionBoardMessageID uuid_t                    `json:"discussion_board_message_id"`
-	Children                 []*DiscussionBoardMessage `json:"children"`
-	Body                     string                    `json:"body"`
+	DiscussionBoardMessageID uuid_t                   `json:"discussion_board_message_id"`
+	Children                 []DiscussionBoardMessage `json:"children"`
+	Body                     string                   `json:"body"`
 }

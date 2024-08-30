@@ -140,7 +140,7 @@ func ConstructDiscussionBoardMessageLimited(
 	rootLimit int,
 	depthLimit int) entities.DiscussionBoardMessage {
 
-	var childMessages = make([]*entities.DiscussionBoardMessage, 0)
+	var childMessages = make([]entities.DiscussionBoardMessage, 0)
 	var currChildMessage entities.DiscussionBoardMessage
 
 	currMessage := entities.DiscussionBoardMessage{
@@ -178,7 +178,7 @@ func ConstructDiscussionBoardMessageLimited(
 
 			childMessages = append(
 				childMessages,
-				&currChildMessage,
+				currChildMessage,
 			)
 		}
 
