@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"rewild-it/api/db"
 	"rewild-it/api/entities"
+	"strconv"
 )
 
 type GetPindropsRequest struct {
@@ -21,11 +22,9 @@ func getPindropsRoute(r *gin.Engine) *gin.Engine {
 		var requestBody GetPindropsRequest
 		var pindrops []entities.Pindrop
 
-		err := c.BindJSON(&requestBody)
-
-		if err != nil {
-			panic(err)
-		}
+		requestBody.Delta, _ = strconv.ParseFloat(c.Query("delta"), 64)
+		requestBody.CentreLongitude, _ = strconv.ParseFloat(c.Query("longitude"), 64)
+		requestBody.CentreLatitude, _ = strconv.ParseFloat(c.Query("longitude"), 64)
 
 		// Retrieve project info
 		pindropsDBResponse := db.GetPindrops(
