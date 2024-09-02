@@ -24,7 +24,7 @@ func getPindropsRoute(r *gin.Engine) *gin.Engine {
 
 		requestBody.Delta, _ = strconv.ParseFloat(c.Query("delta"), 64)
 		requestBody.CentreLongitude, _ = strconv.ParseFloat(c.Query("longitude"), 64)
-		requestBody.CentreLatitude, _ = strconv.ParseFloat(c.Query("longitude"), 64)
+		requestBody.CentreLatitude, _ = strconv.ParseFloat(c.Query("latitude"), 64)
 
 		// Retrieve project info
 		pindropsDBResponse := db.GetPindrops(
