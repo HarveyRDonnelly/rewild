@@ -15,6 +15,7 @@ func ConstructPindrop(
 		PindropID: dbResponse.PindropID,
 		Longitude: dbResponse.Longitude,
 		Latitude:  dbResponse.Latitude,
+		ProjectID: dbResponse.ProjectID,
 	}
 }
 

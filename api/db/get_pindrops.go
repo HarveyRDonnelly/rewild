@@ -39,6 +39,8 @@ func GetPindrops(
 			&currPindropDBResponse.Longitude,
 		)
 
+		currPindropDBResponse.ProjectID = FindProjectIDByPindropID(conn, currPindropDBResponse.PindropID)
+
 		dbResponse.Pindrops = append(dbResponse.Pindrops, currPindropDBResponse)
 
 		if err != nil {

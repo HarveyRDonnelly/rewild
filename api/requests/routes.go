@@ -41,6 +41,7 @@ func Create() *gin.Engine {
 	r = deleteFollowRoute(r)
 	r = deleteDiscussionBoardMessageRoute(r)
 	r = deleteTimelinePostRoute(r)
+	r = deleteProjectRoute(r)
 
 	return r
 }
