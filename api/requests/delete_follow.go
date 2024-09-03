@@ -11,10 +11,6 @@ type DeleteFollowRequest struct {
 	UserID uuid_t `json:"user_id"`
 }
 
-type DeleteFollowResponse struct {
-	UserID uuid_t `json:"user_id"`
-}
-
 func deleteFollowRoute(r *gin.Engine) *gin.Engine {
 
 	r.DELETE("/project/:project_id/follow", func(c *gin.Context) {
@@ -52,6 +48,23 @@ func deleteFollowRoute(r *gin.Engine) *gin.Engine {
 					UserID:    requestBody.UserID,
 				},
 			)
+
+			projectDBResponse := db.GetProject(
+				DB,
+				db.GetProjectDBRequest{
+					ProjectID: projectID,
+				},
+			)
+
+			projectDBResponse.FollowerCount -= 1
+
+			db.UpdateProject(
+				DB,
+				db.UpdateProjectDBRequest(projectDBResponse),
+			)
+
+
+
 		}
 
 		c.Status(http.StatusOK)

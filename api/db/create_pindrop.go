@@ -15,6 +15,7 @@ func CreatePindrop(
 	conn Connection,
 	dbRequest CreatePindropDBRequest) CreatePindropDBResponse {
 
+	var dbResponse CreatePindropDBResponse
 	var pindropID uuid_t
 
 	rows, err := conn.Gateway.Query(
@@ -41,14 +42,9 @@ func CreatePindrop(
 		panic(err)
 	}
 
-	dbResponse := CreatePindropDBResponse(
-		GetPindrop(
-			conn,
-			GetPindropDBRequest{
-				PindropID: pindropID,
-			},
-		),
-	)
+	dbResponse.PindropID = pindropID
+	dbResponse.Longitude = dbRequest.Longitude
+	dbResponse.Latitude = dbRequest.Latitude
 
 	return dbResponse
 

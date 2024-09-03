@@ -8,6 +8,7 @@ type GetPindropDBResponse struct {
 	PindropID uuid_t  `json:"pindrop_id"`
 	Longitude float64 `json:"longitude"`
 	Latitude  float64 `json:"latitude"`
+	ProjectID uuid_t `json: project_id`
 }
 
 func GetPindrop(
@@ -36,6 +37,8 @@ func GetPindrop(
 			panic(err)
 		}
 	}
+
+	dbResponse.ProjectID = FindProjectIDByPindropID(conn, dbRequest.PindropID)
 
 	err = rows.Err()
 	if err != nil {
