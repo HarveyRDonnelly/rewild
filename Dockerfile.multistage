@@ -19,9 +19,7 @@ COPY --from=build-stage /rewild-api /rewild-api
 
 EXPOSE 8080
 
-USER nonroot:nonroot
-
-RUN CHMOD 755 /rewild
-USER admin
+USER root
+CMD chmod -R 755 /rewild
 
 ENTRYPOINT ["/rewild-api"]

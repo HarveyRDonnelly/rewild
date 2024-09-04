@@ -43,5 +43,7 @@ func Create() *gin.Engine {
 	r = deleteTimelinePostRoute(r)
 	r = deleteProjectRoute(r)
 
+	r.Static("/images/files/", "./res")
+
 	return r
 }
