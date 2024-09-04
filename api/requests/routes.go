@@ -20,9 +20,6 @@ func SetDB(db db.Connection) {
 func Create() *gin.Engine {
 	r := gin.Default()
 
-	// Load project absolute path
-	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
-
 	r.MaxMultipartMemory = 8 << 20
 
 	// Middleware
@@ -46,6 +43,9 @@ func Create() *gin.Engine {
 	r = deleteDiscussionBoardMessageRoute(r)
 	r = deleteTimelinePostRoute(r)
 	r = deleteProjectRoute(r)
+
+	// Load project absolute path
+	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
 
 	r.Static(absolutePath + "images/files/", "./res")
 
