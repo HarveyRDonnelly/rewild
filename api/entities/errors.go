@@ -29,7 +29,7 @@ func EntityNotFoundException(entityName string) Error {
 	}
 }
 
-func RequestBodyCastFailureException() Error {
+func RequestBodyCastFailureException(entityName string) Error {
 	return Error{
 		StatusCode: 400,
 		ErrorCode: 2002,
