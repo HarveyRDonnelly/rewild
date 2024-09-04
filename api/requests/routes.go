@@ -47,7 +47,7 @@ func Create() *gin.Engine {
 	// Load project absolute path
 	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
 
-	r.Static(absolutePath + "images/files/", "./res")
+	r.Static("/images/files/", absolutePath + "/res")
 
 	return r
 }
