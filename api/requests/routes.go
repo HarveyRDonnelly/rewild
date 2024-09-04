@@ -5,7 +5,6 @@ import (
 	"github.com/google/uuid"
 	"os"
 	"rewild-it/api/db"
-	"rewild-it/api/middleware"
 )
 
 // Alias UUID type
