@@ -22,8 +22,8 @@ func Create() *gin.Engine {
 
 	r.MaxMultipartMemory = 8 << 20
 
-	// Middleware
-	r.Use(middleware.AuthHandler)
+	// Middleware (temporarily disabled)
+	//r.Use(middleware.AuthHandler)
 
 	// Routes
 	r = getUserRoute(r)
