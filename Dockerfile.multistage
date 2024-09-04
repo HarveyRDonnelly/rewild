@@ -21,4 +21,7 @@ EXPOSE 8080
 
 USER nonroot:nonroot
 
+RUN CHMOD 755 /rewild
+USER admin
+
 ENTRYPOINT ["/rewild-api"]
