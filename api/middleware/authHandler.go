@@ -2,42 +2,62 @@ package middleware
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"os"
+	"strings"
 
 	firebase "firebase.google.com/go/v4"
 	"google.golang.org/api/option"
 )
+
+var UNPROTECTED_ROUTES = []string{"/login/", "/user/"}
 
 var app *firebase.App
 
 func init() {
 	// Initialise firebase
 	var err error
-	opt := option.WithCredentialsFile("./rewild-it-c744b-firebase-adminsdk-4pd7p-0f3e7e754d.json")
+	// Load project absolute path
+	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
+	var firebaseOptsName, _ = os.LookupEnv("FIREBASE_OPTS_NAME")
+
+	opt := option.WithCredentialsFile(absolutePath + firebaseOptsName)
 	app, err = firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
-		print("POOP")
+		panic(err)
 	}
 }
 
 func AuthHandler(c *gin.Context) {
 
-	print("< AUTH MIDDLEWARE PLACEHOLDER >\n")
 	idToken := c.Request.Header.Get("Authorization")
+	idToken = strings.Split(idToken, "Bearer ")[1]
 
 	// Auth check
 	client, err := app.Auth(c)
 	if err != nil {
-		print(fmt.Sprintf("error getting Auth client: %v\n", err))
+		panic(err)
+	}
+	routeIsProtected := true
+	for _, route := range UNPROTECTED_ROUTES {
+		if route == c.Request.URL.Path || route == c.Request.URL.Path + "/"{
+			routeIsProtected = false
+			break
+		}
 	}
 
-	token, err := client.VerifyIDToken(c, idToken)
-	if err != nil {
-		print(fmt.Sprintf("error verifying ID token: %v\n", err))
+	if routeIsProtected == true {
+		_, err := client.VerifyIDToken(c, idToken)
+		if err != nil {
+			c.Status(http.StatusForbidden)
+			c.Abort()
+		} else{
+			c.Next()
+		}
+	} else {
+		c.Next()
 	}
 
-	print(fmt.Sprintf("Verified ID token: %v\n", token))
 
-	c.Next()
 }
