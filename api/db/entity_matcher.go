@@ -33,7 +33,7 @@ func FindUserIDByUsername(conn Connection, username string) uuid_t {
 
 	rows, err := conn.Gateway.Query(
 		`SELECT user_id FROM rewild.users WHERE username=$1`,
-		userID,
+		username,
 	)
 	if err != nil {
 		panic(err)

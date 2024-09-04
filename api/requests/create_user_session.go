@@ -7,13 +7,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/api/option"
 	"net/http"
+	"os"
 	"rewild-it/api/db"
 )
 
 var app *firebase.App
 
 type CreateUserSessionRequest struct {
-	UserID   uuid_t `json:"user_id"`
+	Username   string `json:"username"`
 	Password string `json:"password"`
 }
 
@@ -24,21 +25,29 @@ type CreateUserSessionResponse struct {
 func createUserSessionRoute(r *gin.Engine) *gin.Engine {
 	r.POST("/login", func(c *gin.Context) {
 
+		// Load project absolute path
+		var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
+		var firebaseOptsName, _ = os.LookupEnv("FIREBASE_OPTS_NAME")
+
 		var requestBody CreateUserSessionRequest
 		err := c.BindJSON(&requestBody)
 		if err != nil {
 			panic(err)
 		}
 
+		userID := db.FindUserIDByUsername(
+			DB,
+			requestBody.Username)
+
 		auth := db.GetAuth(
 			DB,
 			db.GetAuthDBRequest{
-				UserID: requestBody.UserID,
+				UserID: userID,
 			},
 		)
 
 		// Initialise firebase
-		opt := option.WithCredentialsFile("./rewild-it-c744b-firebase-adminsdk-4pd7p-0f3e7e754d.json")
+		opt := option.WithCredentialsFile(absolutePath + firebaseOptsName)
 		app, err = firebase.NewApp(context.Background(), nil, opt)
 		if err != nil {
 			panic(err)

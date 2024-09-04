@@ -32,6 +32,7 @@ services:
       DB_PORT: ${DB_PORT}
       DB_HOST: ${DB_HOST}
       PROJECT_PATH: ${PROJECT_PATH}
+      FIREBASE_OPTS_NAME: ${FIREBASE_OPTS_NAME}
     networks:
       - api
     ports:
