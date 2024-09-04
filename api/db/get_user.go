@@ -20,7 +20,7 @@ func GetUser(conn Connection, dbRequest GetUserDBRequest) GetUserDBResponse {
 
 	rows, err := conn.Gateway.Query(
 		`SELECT first_name, last_name, email, username FROM rewild.users WHERE user_id=$1;`,
-		dbRequest.UserID.UUID.String())
+		dbRequest.UserID)
 
 	if err != nil {
 		panic(err)

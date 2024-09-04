@@ -129,3 +129,12 @@ CREATE TABLE IF NOT EXISTS rewild.follows(
          FOREIGN KEY(project_id)
              REFERENCES rewild.projects(project_id)
 );
+
+CREATE TABLE IF NOT EXISTS rewild.auths(
+     user_id     UUID NOT NULL,
+     password    TEXT,
+     PRIMARY KEY(user_id),
+     CONSTRAINT fk_user
+         FOREIGN KEY(user_id)
+             REFERENCES rewild.users(user_id)
+);
