@@ -18,20 +18,31 @@ func getProjectRoute(r *gin.Engine) *gin.Engine {
 			Valid: true,
 		}
 
-		// Retrieve project info
-		projectDBResponse := db.GetProject(
-			DB,
-			db.GetProjectDBRequest{
-				ProjectID: projectID,
-			},
-		)
+		if db.EntityExists(DB, projectID, "project") == false {
+			error := entities.EntityNotExistsException("project")
 
-		newProject := db.ConstructProject(DB, projectDBResponse)
+			c.JSON(
+				error.StatusCode,
+				error,
+			)
+		} else {
 
-		c.JSON(
-			http.StatusOK,
-			GetProjectResponse(newProject),
-		)
+			// Retrieve project info
+			projectDBResponse := db.GetProject(
+				DB,
+				db.GetProjectDBRequest{
+					ProjectID: projectID,
+				},
+			)
+
+			newProject := db.ConstructProject(DB, projectDBResponse)
+
+			c.JSON(
+				http.StatusOK,
+				GetProjectResponse(newProject),
+			)
+
+		}
 
 	})
 
