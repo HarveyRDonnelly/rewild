@@ -44,7 +44,10 @@ func Create() *gin.Engine {
 	r = deleteTimelinePostRoute(r)
 	r = deleteProjectRoute(r)
 
-	r.Static("/images/files/", "./res")
+	// Load project absolute path
+	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
+
+	r.Static(absolutePath + "images/files/", "./res")
 
 	return r
 }
