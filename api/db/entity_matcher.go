@@ -26,3 +26,30 @@ func FindProjectIDByPindropID(conn Connection, pindropID uuid_t) uuid_t {
 	return projectID
 
 }
+
+func FindUserIDByUsername(conn Connection, username string) uuid_t {
+
+	var userID uuid_t
+
+	rows, err := conn.Gateway.Query(
+		`SELECT user_id FROM rewild.users WHERE username=$1`,
+		userID,
+	)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+
+		err := rows.Scan(
+			&userID)
+
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	return userID
+
+}

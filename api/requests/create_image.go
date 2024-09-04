@@ -31,7 +31,7 @@ func createImageRoute(r *gin.Engine) *gin.Engine {
 			},
 		)
 
-		err := c.SaveUploadedFile(imageFile, absolutePath+"res/"+dbResponse.ImageID.UUID.String()+".png")
+		err = c.SaveUploadedFile(imageFile, absolutePath+"res/"+dbResponse.ImageID.UUID.String()+".png")
 
 		if err != nil {
 			panic(err)
