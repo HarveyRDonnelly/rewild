@@ -43,6 +43,7 @@ func Create() *gin.Engine {
 	r = deleteDiscussionBoardMessageRoute(r)
 	r = deleteTimelinePostRoute(r)
 	r = deleteProjectRoute(r)
+	r = createUserSessionRoute(r)
 
 	// Load project absolute path
 	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")

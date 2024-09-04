@@ -2,6 +2,7 @@ package requests
 
 import (
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"rewild-it/api/db"
 )
@@ -11,6 +12,7 @@ type CreateUserRequest struct {
 	LastName  string `json:"last_name"`
 	Email     string `json:"email"`
 	Username  string `json:"username"`
+	Password  string `json:"password"`
 }
 
 type CreateUserResponse struct {
@@ -42,6 +44,14 @@ func createUserRoute(r *gin.Engine) *gin.Engine {
 			},
 		)
 
+		db.CreateAuth(
+			DB,
+			db.CreateAuthDBRequest{
+				UserID: dbResponse.UserID,
+				Password: hashPassword(requestBody.Password),
+			},
+		)
+
 		newUser := CreateUserResponse{
 			UserID:    dbResponse.UserID,
 			FirstName: dbResponse.FirstName,
@@ -59,4 +69,9 @@ func createUserRoute(r *gin.Engine) *gin.Engine {
 
 	return r
 
+}
+
+func hashPassword(password string) string {
+	bytes, _ := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes)
 }

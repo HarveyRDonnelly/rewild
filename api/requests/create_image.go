@@ -17,7 +17,11 @@ func createImageRoute(r *gin.Engine) *gin.Engine {
 
 	r.POST("/image/", func(c *gin.Context) {
 
-		imageFile, _ := c.FormFile("image_file")
+		imageFile, err := c.FormFile("image_file")
+		if err != nil {
+			panic(err)
+		}
+
 		altText, _ := c.GetPostForm("alt_text")
 
 		dbResponse := db.CreateImage(
