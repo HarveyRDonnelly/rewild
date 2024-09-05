@@ -20,11 +20,11 @@ func SetDB(db db.Connection) {
 func Create() *gin.Engine {
 	r := gin.Default()
 
-	r.MaxMultipartMemory = 8 << 20
+	r.MaxMultipartMemory = 8 << 30
 
 	// Middleware (temporarily disabled)
-	//r.Use(middleware.AuthHandler)
-	r.Use(middleware.DebugHandler)
+	r.Use(middleware.AuthHandler)
+	//r.Use(middleware.DebugHandler)
 
 	// Routes
 	r = getUserRoute(r)
