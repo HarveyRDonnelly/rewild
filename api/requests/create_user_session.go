@@ -47,7 +47,7 @@ func createUserSessionRoute(r *gin.Engine) *gin.Engine {
 		)
 
 		// Initialise firebase
-		opt := option.WithCredentialsFile(absolutePath + firebaseOptsName)
+		opt := option.WithCredentialsFile(absolutePath + "config/firebase/" + firebaseOptsName)
 		app, err = firebase.NewApp(context.Background(), nil, opt)
 		if err != nil {
 			panic(err)

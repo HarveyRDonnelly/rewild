@@ -22,7 +22,7 @@ func init() {
 	var absolutePath, _ = os.LookupEnv("PROJECT_PATH")
 	var firebaseOptsName, _ = os.LookupEnv("FIREBASE_OPTS_NAME")
 
-	opt := option.WithCredentialsFile(absolutePath + firebaseOptsName)
+	opt := option.WithCredentialsFile(absolutePath + "config/firebase/" + firebaseOptsName)
 	app, err = firebase.NewApp(context.Background(), nil, opt)
 	if err != nil {
 		panic(err)
@@ -32,7 +32,9 @@ func init() {
 func AuthHandler(c *gin.Context) {
 
 	idToken := c.Request.Header.Get("Authorization")
-	idToken = strings.Split(idToken, "Bearer ")[1]
+	if idToken != ""{
+		idToken = strings.Split(idToken, "Bearer ")[1]
+	}
 
 	// Auth check
 	client, err := app.Auth(c)
