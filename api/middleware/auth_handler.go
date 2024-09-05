@@ -43,7 +43,7 @@ func AuthHandler(c *gin.Context) {
 	}
 	routeIsProtected := true
 	for _, route := range UNPROTECTED_ROUTES {
-		if route == c.Request.URL.Path || route == c.Request.URL.Path + "/"{
+		if route == c.Request.URL.Path || route + "/" == c.Request.URL.Path{
 			routeIsProtected = false
 			break
 		}
@@ -51,8 +51,9 @@ func AuthHandler(c *gin.Context) {
 
 	if routeIsProtected == true {
 		_, err := client.VerifyIDToken(c, idToken)
-		println(err)
+
 		if err != nil {
+			println(fmt.Sprintf("AUTH ERROR: %+v\n", err))
 			c.Status(http.StatusForbidden)
 			c.Abort()
 		} else{
