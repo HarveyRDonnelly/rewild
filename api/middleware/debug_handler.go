@@ -3,7 +3,6 @@ package middleware
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"io"
 )
 
 func DebugHandler(c *gin.Context) {
