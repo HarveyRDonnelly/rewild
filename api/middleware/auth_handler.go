@@ -51,6 +51,7 @@ func AuthHandler(c *gin.Context) {
 
 	if routeIsProtected == true {
 		_, err := client.VerifyIDToken(c, idToken)
+		println(err)
 		if err != nil {
 			c.Status(http.StatusForbidden)
 			c.Abort()
