@@ -11,7 +11,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-var UNPROTECTED_ROUTES = []string{"/login/", "/user/"}
+var UNPROTECTED_ROUTES = []string{"/login", "/user"}
 
 var app *firebase.App
 
