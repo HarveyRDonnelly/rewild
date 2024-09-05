@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
@@ -32,9 +33,11 @@ func init() {
 func AuthHandler(c *gin.Context) {
 
 	idToken := c.Request.Header.Get("Authorization")
-	if idToken != ""{
+	println(fmt.Sprintf("ID TOKEN A: %s", idToken))
+	if idToken != "" {
 		idToken = strings.Split(idToken, "Bearer ")[1]
 	}
+	println(fmt.Sprintf("ID TOKEN B: %s", idToken))
 
 	// Auth check
 	client, err := app.Auth(c)
