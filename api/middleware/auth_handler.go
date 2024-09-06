@@ -52,6 +52,11 @@ func AuthHandler(c *gin.Context) {
 		}
 	}
 
+	// Exclude image file retrieval from authentication
+	if strings.HasPrefix(c.Request.URL.Path, "/images/files/") {
+		routeIsProtected = false
+	}
+
 	if routeIsProtected == true {
 		_, err := client.VerifyIDToken(c, idToken)
 
