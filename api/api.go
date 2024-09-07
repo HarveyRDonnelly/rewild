@@ -3,17 +3,17 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"rewild-it/api/db"
-	"rewild-it/api/requests"
+	"rewild-it/api/routes"
 )
 
 var r *gin.Engine
 
 func SetDB(db db.Connection) {
-	requests.SetDB(db)
+	routes.SetDB(db)
 }
 
 func init() {
-	r = requests.Create()
+	r = routes.Create()
 }
 
 func Run() {

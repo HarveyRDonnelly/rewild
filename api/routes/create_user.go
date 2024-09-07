@@ -1,4 +1,4 @@
-package requests
+package routes
 
 import (
 	"github.com/gin-gonic/gin"
@@ -47,7 +47,7 @@ func createUserRoute(r *gin.Engine) *gin.Engine {
 		db.CreateAuth(
 			DB,
 			db.CreateAuthDBRequest{
-				UserID: dbResponse.UserID,
+				UserID:   dbResponse.UserID,
 				Password: hashPassword(requestBody.Password),
 			},
 		)

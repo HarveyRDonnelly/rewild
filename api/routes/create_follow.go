@@ -1,4 +1,4 @@
-package requests
+package routes
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,19 +7,23 @@ import (
 	"rewild-it/api/db"
 )
 
-type DeleteFollowRequest struct {
+type CreateFollowRequest struct {
 	UserID uuid_t `json:"user_id"`
 }
 
-func deleteFollowRoute(r *gin.Engine) *gin.Engine {
+type CreateFollowResponse struct {
+	UserID uuid_t `json:"user_id"`
+}
 
-	r.DELETE("/project/:project_id/follow", func(c *gin.Context) {
+func createFollowRoute(r *gin.Engine) *gin.Engine {
+
+	r.POST("/project/:project_id/follow", func(c *gin.Context) {
 
 		var projectID = uuid.NullUUID{
 			UUID:  uuid.Must(uuid.Parse(c.Param("project_id"))),
 			Valid: true,
 		}
-		var requestBody DeleteFollowRequest
+		var requestBody CreateFollowRequest
 		err := c.BindJSON(&requestBody)
 		if err != nil {
 			panic(err)
@@ -40,10 +44,10 @@ func deleteFollowRoute(r *gin.Engine) *gin.Engine {
 			}
 		}
 
-		if doesFollow == true {
-			db.DeleteFollow(
+		if doesFollow == false {
+			db.CreateFollow(
 				DB,
-				db.DeleteFollowDBRequest{
+				db.CreateFollowDBRequest{
 					ProjectID: projectID,
 					UserID:    requestBody.UserID,
 				},
@@ -56,18 +60,34 @@ func deleteFollowRoute(r *gin.Engine) *gin.Engine {
 				},
 			)
 
-			projectDBResponse.FollowerCount -= 1
+			projectDBResponse.FollowerCount += 1
 
-			db.UpdateProject(
+			newProjectDBResponse := db.UpdateProject(
 				DB,
 				db.UpdateProjectDBRequest(projectDBResponse),
 			)
 
-
-
+			c.JSON(
+				http.StatusCreated,
+				db.ConstructProject(
+					DB,
+					db.GetProjectDBResponse(newProjectDBResponse),
+				),
+			)
+		} else {
+			c.JSON(
+				http.StatusOK,
+				db.ConstructProject(
+					DB,
+					db.GetProject(
+						DB,
+						db.GetProjectDBRequest{
+							ProjectID: projectID,
+						},
+					),
+				),
+			)
 		}
-
-		c.Status(http.StatusOK)
 	})
 
 	return r

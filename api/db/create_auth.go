@@ -1,8 +1,8 @@
 package db
 
 type CreateAuthDBRequest struct {
-	UserID uuid_t `json:"user_id"`
-	Password  string `json:"password"`
+	UserID   uuid_t `json:"user_id"`
+	Password string `json:"password"`
 }
 
 type CreateAuthDBResponse struct {

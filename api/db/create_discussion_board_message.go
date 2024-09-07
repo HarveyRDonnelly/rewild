@@ -11,6 +11,7 @@ type CreateDiscussionBoardMessageDBResponse struct {
 	ParentID                 uuid_t `json:"parent_id"`
 	Body                     string `json:"body"`
 	AuthorID                 uuid_t `json:"author_id"`
+	CreatedTS                string `json:"created_ts"`
 }
 
 func CreateDiscussionBoardMessage(
