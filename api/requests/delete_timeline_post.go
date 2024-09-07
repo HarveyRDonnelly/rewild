@@ -56,7 +56,15 @@ func deleteTimelinePostRoute(r *gin.Engine) *gin.Engine {
 			prevTimelinePostDBResponse.NextID = currTimelinePostDBResponse.NextID
 			db.UpdateTimelinePost(
 				DB,
-				db.UpdateTimelinePostDBRequest(prevTimelinePostDBResponse),
+				db.UpdateTimelinePostDBRequest{
+					TimelinePostID: prevTimelinePostDBResponse.TimelinePostID,
+					NextID:         prevTimelinePostDBResponse.NextID,
+					PrevID:         prevTimelinePostDBResponse.PrevID,
+					Title:          prevTimelinePostDBResponse.Title,
+					Body:           prevTimelinePostDBResponse.Body,
+					Type:           prevTimelinePostDBResponse.Type,
+					AuthorID:       prevTimelinePostDBResponse.AuthorID,
+				},
 			)
 		}
 
@@ -72,7 +80,15 @@ func deleteTimelinePostRoute(r *gin.Engine) *gin.Engine {
 			nextTimelinePostDBResponse.PrevID = currTimelinePostDBResponse.PrevID
 			db.UpdateTimelinePost(
 				DB,
-				db.UpdateTimelinePostDBRequest(nextTimelinePostDBResponse),
+				db.UpdateTimelinePostDBRequest{
+					TimelinePostID: nextTimelinePostDBResponse.TimelinePostID,
+					NextID:         nextTimelinePostDBResponse.NextID,
+					PrevID:         nextTimelinePostDBResponse.PrevID,
+					Title:          nextTimelinePostDBResponse.Title,
+					Body:           nextTimelinePostDBResponse.Body,
+					Type:           nextTimelinePostDBResponse.Type,
+					AuthorID:       nextTimelinePostDBResponse.AuthorID,
+				},
 			)
 		}
 

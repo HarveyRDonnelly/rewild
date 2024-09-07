@@ -9,8 +9,10 @@ import (
 )
 
 type CreateTimelinePostRequest struct {
-	Title string `json:"title"`
-	Body  string `json:"body"`
+	Title    string `json:"title"`
+	Body     string `json:"body"`
+	Type     string `json:"type"`
+	AuthorID uuid_t `json:"author_id"`
 }
 
 type CreateTimelinePostResponse entities.Timeline
@@ -51,10 +53,12 @@ func createTimelinePostRoute(r *gin.Engine) *gin.Engine {
 		newTimelinePostDBResponse := db.CreateTimelinePost(
 			DB,
 			db.CreateTimelinePostDBRequest{
-				NextID: uuid.NullUUID{Valid: false},
-				PrevID: timelineDBResponse.TailID,
-				Title:  requestBody.Title,
-				Body:   requestBody.Body,
+				NextID:   uuid.NullUUID{Valid: false},
+				PrevID:   timelineDBResponse.TailID,
+				Title:    requestBody.Title,
+				Body:     requestBody.Body,
+				AuthorID: requestBody.AuthorID,
+				Type:     requestBody.Type,
 			})
 
 		// Retrieve timeline tail
@@ -74,6 +78,8 @@ func createTimelinePostRoute(r *gin.Engine) *gin.Engine {
 				PrevID:         timelineTailPostDBResponse.PrevID,
 				Title:          timelineTailPostDBResponse.Title,
 				Body:           timelineTailPostDBResponse.Body,
+				AuthorID:       timelineTailPostDBResponse.AuthorID,
+				Type:           timelineTailPostDBResponse.Type,
 			},
 		)
 

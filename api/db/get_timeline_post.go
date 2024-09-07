@@ -10,6 +10,9 @@ type GetTimelinePostDBResponse struct {
 	PrevID         uuid_t `json:"prev_id"`
 	Title          string `json:"title"`
 	Body           string `json:"body"`
+	Type           string `json:"type"`
+	AuthorID       uuid_t `json:"author_id"`
+	CreatedTS      string `json:"created_ts"`
 }
 
 func GetTimelinePost(
@@ -20,7 +23,7 @@ func GetTimelinePost(
 	dbResponse.TimelinePostID = dbRequest.TimelinePostID
 
 	rows, err := conn.Gateway.Query(
-		`SELECT next_id, prev_id, title, body FROM rewild.timeline_posts WHERE timeline_post_id=$1;`,
+		`SELECT next_id, prev_id, title, body, type, author_id, created_ts FROM rewild.timeline_posts WHERE timeline_post_id=$1;`,
 		dbRequest.TimelinePostID)
 
 	if err != nil {
@@ -35,6 +38,9 @@ func GetTimelinePost(
 			&dbResponse.PrevID,
 			&dbResponse.Title,
 			&dbResponse.Body,
+			&dbResponse.Type,
+			&dbResponse.AuthorID,
+			&dbResponse.CreatedTS,
 		)
 		if err != nil {
 			panic(err)

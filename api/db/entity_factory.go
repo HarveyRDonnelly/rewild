@@ -65,6 +65,9 @@ func ConstructTimeline(
 			PrevID:         uuid.NullUUID{Valid: false},
 			Title:          currTimelinePostDBResponse.Title,
 			Body:           currTimelinePostDBResponse.Body,
+			Type:           currTimelinePostDBResponse.Type,
+			AuthorID:       currTimelinePostDBResponse.AuthorID,
+			CreatedTS:      currTimelinePostDBResponse.CreatedTS,
 			Images:         currTimelinePostImages,
 		}
 
@@ -88,7 +91,7 @@ func ConstructTimeline(
 				},
 			)
 
-			var nextTimelinePostImages []entities.Image
+			var nextTimelinePostImages = make([]entities.Image, 0)
 
 			for i := 0; i < len(nextTimelinePostImagesDBResponse.Images); i++ {
 				nextTimelinePostImages = append(
@@ -106,6 +109,9 @@ func ConstructTimeline(
 				PrevID:         currTimelinePostID,
 				Title:          nextTimelinePostDBResponse.Title,
 				Body:           nextTimelinePostDBResponse.Body,
+				Type:           nextTimelinePostDBResponse.Type,
+				AuthorID:       nextTimelinePostDBResponse.AuthorID,
+				CreatedTS:      nextTimelinePostDBResponse.CreatedTS,
 				Images:         nextTimelinePostImages,
 			}
 

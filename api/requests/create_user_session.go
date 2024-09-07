@@ -14,7 +14,7 @@ import (
 var app *firebase.App
 
 type CreateUserSessionRequest struct {
-	Username   string `json:"username"`
+	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
@@ -71,7 +71,6 @@ func createUserSessionRoute(r *gin.Engine) *gin.Engine {
 		} else {
 			c.Status(http.StatusUnauthorized)
 		}
-
 
 	})
 
