@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS rewild.timeline_posts(
     prev_id             UUID NULL,
     title               VARCHAR(255) NOT NULL,
     body                TEXT,
+    type                TEXT,
+    author_id           UUID NULL,
     created_ts      TIMESTAMP DEFAULT current_timestamp,
     PRIMARY KEY(timeline_post_id),
     CONSTRAINT fk_next
@@ -40,7 +42,10 @@ CREATE TABLE IF NOT EXISTS rewild.timeline_posts(
             REFERENCES rewild.timeline_posts(timeline_post_id),
     CONSTRAINT fk_prev
         FOREIGN KEY(prev_id)
-            REFERENCES rewild.timeline_posts(timeline_post_id)
+            REFERENCES rewild.timeline_posts(timeline_post_id),
+    CONSTRAINT fk_author
+        FOREIGN KEY(author_id)
+            REFERENCES rewild.users(user_id)
 );
 
 CREATE TABLE IF NOT EXISTS rewild.timeline_post_images(

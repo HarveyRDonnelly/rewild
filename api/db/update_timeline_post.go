@@ -6,6 +6,8 @@ type UpdateTimelinePostDBRequest struct {
 	PrevID         uuid_t `json:"prev_id"`
 	Title          string `json:"title"`
 	Body           string `json:"body"`
+	Type           string `json:"type"`
+	AuthorID       uuid_t `json:"author_id"`
 }
 
 type UpdateTimelinePostDBResponse struct {
@@ -14,6 +16,9 @@ type UpdateTimelinePostDBResponse struct {
 	PrevID         uuid_t `json:"prev_id"`
 	Title          string `json:"title"`
 	Body           string `json:"body"`
+	Type           string `json:"type"`
+	AuthorID       uuid_t `json:"author_id"`
+	CreatedTS      string `json:"created_ts"`
 }
 
 func UpdateTimelinePost(
@@ -21,12 +26,14 @@ func UpdateTimelinePost(
 	dbRequest UpdateTimelinePostDBRequest) UpdateTimelinePostDBResponse {
 
 	rows, err := conn.Gateway.Query(
-		`UPDATE rewild.timeline_posts SET next_id=$2, prev_id=$3, title=$4, body=$5 WHERE timeline_post_id=$1;;`,
+		`UPDATE rewild.timeline_posts SET next_id=$2, prev_id=$3, title=$4, body=$5, type=$6, author_id=$7 WHERE timeline_post_id=$1;`,
 		dbRequest.TimelinePostID,
 		dbRequest.NextID,
 		dbRequest.PrevID,
 		dbRequest.Title,
 		dbRequest.Body,
+		dbRequest.Type,
+		dbRequest.AuthorID,
 	)
 
 	if err != nil {

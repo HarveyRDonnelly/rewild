@@ -52,10 +52,12 @@ func createProjectRoute(r *gin.Engine) *gin.Engine {
 		timelinePostDBResponse := db.CreateTimelinePost(
 			DB,
 			db.CreateTimelinePostDBRequest{
-				NextID: uuid.NullUUID{Valid: false},
-				PrevID: uuid.NullUUID{Valid: false},
-				Title:  "Let's start rewilding!",
-				Body:   "",
+				NextID:   uuid.NullUUID{Valid: false},
+				PrevID:   uuid.NullUUID{Valid: false},
+				Title:    "Let's start rewilding!",
+				Body:     "",
+				Type:     "initial",
+				AuthorID: uuid.NullUUID{Valid: false},
 			})
 
 		// Create timeline

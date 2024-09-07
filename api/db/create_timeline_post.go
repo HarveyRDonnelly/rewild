@@ -1,10 +1,12 @@
 package db
 
 type CreateTimelinePostDBRequest struct {
-	NextID uuid_t `json:"next_id"`
-	PrevID uuid_t `json:"prev_id"`
-	Title  string `json:"title"`
-	Body   string `json:"body"`
+	NextID   uuid_t `json:"next_id"`
+	PrevID   uuid_t `json:"prev_id"`
+	Title    string `json:"title"`
+	Body     string `json:"body"`
+	Type     string `json:"type"`
+	AuthorID uuid_t `json:"author_id"`
 }
 
 type CreateTimelinePostDBResponse struct {
@@ -13,6 +15,9 @@ type CreateTimelinePostDBResponse struct {
 	PrevID         uuid_t `json:"prev_id"`
 	Title          string `json:"title"`
 	Body           string `json:"body"`
+	Type           string `json:"type"`
+	AuthorID       uuid_t `json:"author_id"`
+	CreatedTS      string `json:"created-ts"`
 }
 
 func CreateTimelinePost(
@@ -22,12 +27,14 @@ func CreateTimelinePost(
 	var timelinePostID uuid_t
 
 	rows, err := conn.Gateway.Query(
-		`INSERT INTO rewild.timeline_posts (next_id, prev_id, title, body)
-				VALUES ($1, $2, $3, $4) RETURNING timeline_post_id;`,
+		`INSERT INTO rewild.timeline_posts (next_id, prev_id, title, body, type, author_id)
+				VALUES ($1, $2, $3, $4, $5, $6) RETURNING timeline_post_id;`,
 		dbRequest.NextID,
 		dbRequest.PrevID,
 		dbRequest.Title,
 		dbRequest.Body,
+		dbRequest.Type,
+		dbRequest.AuthorID,
 	)
 
 	if err != nil {

@@ -36,7 +36,7 @@ type Pindrop struct {
 	PindropID uuid_t  `json:"pindrop_id"`
 	Longitude float64 `json:"longitude"`
 	Latitude  float64 `json:"latitude"`
-	ProjectID uuid_t `json:"project_id"`
+	ProjectID uuid_t  `json:"project_id"`
 }
 
 // Timeline Entity
@@ -54,7 +54,10 @@ type TimelinePost struct {
 	PrevID         uuid_t  `json:"prev_id"`
 	Title          string  `json:"title"`
 	Body           string  `json:"body"`
+	Type           string  `json:"type"`
 	Images         []Image `json:"images"`
+	AuthorID       uuid_t  `json:"author_id"`
+	CreatedTS      string  `json:"created_ts"`
 }
 
 // Image Entity
