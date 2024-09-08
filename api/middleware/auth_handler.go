@@ -46,7 +46,7 @@ func AuthHandler(c *gin.Context) {
 	}
 	routeIsProtected := true
 	for _, route := range UNPROTECTED_ROUTES {
-		if route == c.Request.URL.Path || route + "/" == c.Request.URL.Path{
+		if route == c.Request.URL.Path || route+"/" == c.Request.URL.Path {
 			routeIsProtected = false
 			break
 		}
@@ -57,6 +57,11 @@ func AuthHandler(c *gin.Context) {
 		routeIsProtected = false
 	}
 
+	// Exclude get pindrops retrieval from authentication
+	if strings.HasPrefix(c.Request.URL.Path, "/pindrop/") {
+		routeIsProtected = false
+	}
+
 	if routeIsProtected == true {
 		_, err := client.VerifyIDToken(c, idToken)
 
@@ -64,12 +69,11 @@ func AuthHandler(c *gin.Context) {
 			println(fmt.Sprintf("AUTH ERROR: %+v\n", err))
 			c.Status(http.StatusForbidden)
 			c.Abort()
-		} else{
+		} else {
 			c.Next()
 		}
 	} else {
 		c.Next()
 	}
-
 
 }

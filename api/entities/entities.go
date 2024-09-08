@@ -78,4 +78,5 @@ type DiscussionBoardMessage struct {
 	Children                 []DiscussionBoardMessage `json:"children"`
 	Body                     string                   `json:"body"`
 	AuthorID                 uuid_t                   `json:"author_id"`
+	CreatedTS                string                   `json:"created_ts"`
 }

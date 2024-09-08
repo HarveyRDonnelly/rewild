@@ -155,6 +155,7 @@ func ConstructDiscussionBoardMessageLimited(
 		DiscussionBoardMessageID: dbResponse.DiscussionBoardMessageID,
 		Body:                     dbResponse.Body,
 		AuthorID:                 dbResponse.AuthorID,
+		CreatedTS:                dbResponse.CreatedTS,
 	}
 
 	// Retrieve message children

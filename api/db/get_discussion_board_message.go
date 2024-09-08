@@ -9,6 +9,7 @@ type GetDiscussionBoardMessageDBResponse struct {
 	ParentID                 uuid_t `json:"parent_id"`
 	Body                     string `json:"body"`
 	AuthorID                 uuid_t `json:"author_id"`
+	CreatedTS                string `json:"created_ts"`
 }
 
 func GetDiscussionBoardMessage(
@@ -19,7 +20,7 @@ func GetDiscussionBoardMessage(
 	dbResponse.DiscussionBoardMessageID = dbRequest.DiscussionBoardMessageID
 
 	rows, err := conn.Gateway.Query(
-		`SELECT parent_id, body, author_id FROM rewild.discussion_board_messages WHERE discussion_board_message_id=$1;`,
+		`SELECT parent_id, body, author_id, created_ts FROM rewild.discussion_board_messages WHERE discussion_board_message_id=$1;`,
 		dbRequest.DiscussionBoardMessageID)
 
 	if err != nil {
@@ -33,6 +34,7 @@ func GetDiscussionBoardMessage(
 			&dbResponse.ParentID,
 			&dbResponse.Body,
 			&dbResponse.AuthorID,
+			&dbResponse.CreatedTS,
 		)
 		if err != nil {
 			panic(err)
