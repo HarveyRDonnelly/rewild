@@ -20,12 +20,3 @@ Rewilding initiatives can effectively target areas for restoration and conservat
 
 ### Minimum Viable Product (MVP) Description
 Users will contribute to a collaborative map of Toronto, where regions with potential for rewilding can be marked with relevant photos and information as part of a new “rewilding project". A discussion board will be created for each project so that users can discuss the best approaches for rewilding (i.e. what plant species, bird boxes, bee habitats etc.) that are appropriate for the area’s wildlife needs. Users can follow projects to keep up to date with progress. Projects will be tracked via a high-level timeline, which will document progress and facilitate high-level engagement (e.g. petitioning, event RSVP etc.). The map will be layered and color-coded for types of rewilding projects (e.g.blue for birdboxes, red for wildflower projects). Rewild it may be expanded to include additional features such as learning resources and tools for reporting invasive plant/wildlife species to municipal authorities.
-
-## Development
-### To-do List
-- [ ] Delete project, timeline post, discussion board message
-- [ ] Update project name
-- [ ] Add follower, remove follower
-- [ ] Edit user profile, 
-- [ ] Add upvote/downvote
-- [ ] JWT Auth 
