@@ -46,7 +46,10 @@ The Rewild it Backend API is built following [RESTful API](https://restfulapi.ne
 
 ### Backend API Architecture
 The backend API architecture for release `1.0.1` is documented in the below diagram. 
-<img src="docs/graphics/backend_api_1.jpg" width="100%" />
+
+![Database Schema](docs/graphics/backend_api_1.jpg)
 
 ### Database Schema
-The database schema is defined in [`rewild-it/db/create_schema.sql`](/db/create_schema.sql)
+The database schema is defined in [`rewild-it/db/create_schema.sql`](/db/create_schema.sql). The database schema for release `1.0.1` is documented in the below diagram.
+
+![Database Schema](docs/graphics/database_schema.png)
