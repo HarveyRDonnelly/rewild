@@ -20,3 +20,33 @@ Rewilding initiatives can effectively target areas for restoration and conservat
 
 ### Minimum Viable Product (MVP) Description
 Users will contribute to a collaborative map of Toronto, where regions with potential for rewilding can be marked with relevant photos and information as part of a new “rewilding project". A discussion board will be created for each project so that users can discuss the best approaches for rewilding (i.e. what plant species, bird boxes, bee habitats etc.) that are appropriate for the area’s wildlife needs. Users can follow projects to keep up to date with progress. Projects will be tracked via a high-level timeline, which will document progress and facilitate high-level engagement (e.g. petitioning, event RSVP etc.). The map will be layered and color-coded for types of rewilding projects (e.g.blue for birdboxes, red for wildflower projects). Rewild it may be expanded to include additional features such as learning resources and tools for reporting invasive plant/wildlife species to municipal authorities.
+
+## How can I contribute?
+**Rewild it** is an open-source initiative, managed by [@HarveyRDonnelly](https://github.com/HarveyRDonnelly) (Backend Lead) and [@skooch](https://github.com/skoooch) (Frontend Lead). Support and code contributions are very welcome! 
+
+**Here are a few steps for getting started with Backend API development:**
+
+1. Clone the Rewild it Bakcend API project repository:
+   
+   `git clone https://github.com/HarveyRDonnelly/rewild.git`
+   
+3. Set up the development environment on your local machine (see next section).
+  
+4. Browse the issues tab on Github and find something that is suitable given your development experience. This might be a big or an enhancement. We recommend selecting an issue that is tagged as a "good first issue" if one is available. We also encourage you to  define your own issues. Project maintainers can be tagged or contacted to receive feedback on new issues.
+
+> If you are ever stuck or need some help getting started, reach out to a project maintainer. **We are here to help! :)**
+
+5. When your code contribution is complete, make a PR with at least one project maintainer assigned as a reviewer. Some feedback may have to be implemented before a PR is approved and merged.
+
+6. The changes will be pushed to the production environment when a new release is made.
+
+### Development Environment Setup
+
+The Rewild it Backend API is built following [RESTful API](https://restfulapi.net/) principles using `go1.21.4`, with a `PostgreSQL 16.2` database. We recommend using an IDE with [Golang](https://go.dev/) support such as [GoLand](https://www.jetbrains.com/go/) or [VS Code](https://code.visualstudio.com/docs/languages/go). The database and backend API are containerised using [Docker](https://www.docker.com/) and orchesterated using [Docker Compose](https://docs.docker.com/compose/).
+
+### Backend API Architecture
+The backend API architecture for release `1.0.1` is documented in the below diagram. 
+<img src="docs/graphics/backend_api_1.jpg" width="100%" />
+
+### Database Schema
+The database schema is defined in [`rewild-it/db/create_schema.sql`](/db/create_schema.sql)
