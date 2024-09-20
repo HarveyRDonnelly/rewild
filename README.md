@@ -57,7 +57,7 @@ If you are ever stuck or need some help getting started, reach out to a project 
 ### Backend API Architecture
 The backend API architecture for release `1.0.1` is documented in the below diagram. 
 
-![Database Schema](docs/graphics/backend_api_1.jpg)
+![Database Schema](docs/graphics/rewild_backend.png)
 
 ### Database Schema
 The database schema is defined in [`rewild-it/db/create_schema.sql`](/db/create_schema.sql). The database schema for release `1.0.1` is documented in the below diagram.
