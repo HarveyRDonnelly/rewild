@@ -40,7 +40,7 @@ If you are ever stuck or need some help getting started, reach out to a project 
 
 6. The changes will be pushed to the production environment when a new release is made.
 
-### Runnng the Backend API
+### Running the Backend API
 
 1. Clone the Rewild it Backend API project repository:
 
